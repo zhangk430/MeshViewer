@@ -180,11 +180,16 @@ void QtViewer::paintGL(){
 		glUniform4fv(shaderProgram->diffuseLight, 1, (const GLfloat *)&diffuseLightIntensity);
 		glUniform4fv(shaderProgram->specularLight, 1, (const GLfloat *)&specularLightIntensity);
 		glUniform4fv(shaderProgram->cameraPositionUniform, 1, (const GLfloat *)&cameraPosition);
-		if (theModelView[0]->theTexture) {
+		if (theModelView[i]->theTexture) {
 			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, m_bufferData[0]->texture);
+			glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->texture);
 			glUniform1i(shaderProgram->texture, 1);
-
+			if (theModelView[i]->theNormals) {
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->normalTexture);
+				GLuint normalTexture = glGetUniformLocation(shaderProgram->shaderProgram, "normalTexture");
+				glUniform1i(normalTexture, m_bufferData[i]->normalTexture);
+			}
 		}
 
 		glEnable(GL_POLYGON_OFFSET_FILL);
@@ -288,20 +293,19 @@ void QtViewer::mouseReleaseEvent(QMouseEvent *event)
 		m_Trackball.release(pixelPosToViewPos(event->pos()));
 }
 
-
 void QtViewer::setModelView(ModelView * modelView)
 {
 	clear();
 	theModelView.push_back(modelView);
 	showMesh.push_back(true);
 	SetCameraFromModelView();
+	modelView->computeTangentSpace();
 	openglBufferData *bufferData = new openglBufferData(modelView);
 	bufferData->loadBufferData();
 	m_bufferData.push_back(bufferData);
 	Point n = theCamera.position - theModelView[0]->center;
 	n /= n.norm();
 	createPlane(theModelView[0]->center - n * theModelView[0]->boxAxisLen * 2, n, theModelView[0]->boxAxisLen * 3);
-//	std::cout << (theModelView[0]->center - n * theModelView[0]->boxAxisLen / 2)[0] << " " << (theModelView[0]->center - n * theModelView[0]->boxAxisLen / 2)[1] << " " << (theModelView[0]->center - n * theModelView[0]->boxAxisLen / 2)[2] << "\n"; 
 	generateDepthBuffer();
 	updateGL();
 }

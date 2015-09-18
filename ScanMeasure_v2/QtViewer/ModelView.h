@@ -30,6 +30,8 @@ public:
 	
 	void ComputCentroidAndBox();
 
+	void computeTangentSpace();
+
 
 public:
 	SimMesh * theMesh;
@@ -39,6 +41,7 @@ public:
 	Point center, color;
 	Point boxMin, boxMax;
 	float boxAxisLen;
+	std::vector<Point> tangents;
 };
 
 #endif

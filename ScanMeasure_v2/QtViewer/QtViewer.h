@@ -33,7 +33,6 @@ public:
 		colorShaderProgram.init("vShader.glsl", "fShader.glsl", "fragColor");
 		textureShadedrProgram.init("vTexShader.glsl", "fTexShader.glsl", "fragColor");
 		shadowShaderProgram.init("vDepthShader.glsl", "fDepthShader.glsl", "fragDepth");
-		quad_programID.init("Passthrough.vertexshader", "SimpleTexture.fragmentshader", "color" );
 	}
 
 	~QtViewer(){
@@ -65,18 +64,6 @@ protected:
 	void createPlane(Point center, Point n, double len);
 	bool generateDepthBuffer();
 
-
-	
-protected:
-
-	Camera theCamera;
-	Light light0;
-	std::vector<ModelView *> theModelView;
-	std::vector<openglBufferData *> m_bufferData;
-	openglBufferData *floor;
-
-
-
 	void SetCameraFromModelView();
 	mat4 getModelViewMatrix();
 	mat4 getProjectionMatrix();
@@ -87,8 +74,18 @@ protected:
 
 	QPointF pixelPosToViewPos(const QPointF& p);
 
-	Shader colorShaderProgram, textureShadedrProgram, shadowShaderProgram, quad_programID;
-	GLuint frameBufferName, depthTexture, quad_vertexbuffer, texID;
+
+	
+protected:
+
+	Camera theCamera;
+	Light light0;
+	std::vector<ModelView *> theModelView;
+	std::vector<openglBufferData *> m_bufferData;
+	openglBufferData *floor;
+
+	Shader colorShaderProgram, textureShadedrProgram, shadowShaderProgram;
+	GLuint frameBufferName, depthTexture, texID;
 	
 	double mouseX, mouseY;
 	TrackBall m_Trackball;

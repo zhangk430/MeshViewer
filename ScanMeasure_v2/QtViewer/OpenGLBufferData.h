@@ -12,7 +12,7 @@ public:
 	GLuint vbo;
 	GLuint vbo_edge_indices;
 	GLuint vbo_face_indices;
-	GLuint texture;
+	GLuint texture, normalTexture;
 	openglBufferData(ModelView *modelView) : theModelView(modelView), vao(0), vao_wireFrame(0), vbo(0), vbo_edge_indices(0), vbo_face_indices(0), 
 		texture(0) {
 

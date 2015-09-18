@@ -44,6 +44,9 @@ void ModelView::ComputCentroidAndBox() {
 void ModelView::computeTangentSpace() {
 	if (!theNormals || !theTexture)
 		return;
+	if (theTexture->mode == MeshTexture::VERTEX_MODE) {
+		tangents.resize(theMesh->numVertices());
+	}
 	for (int i = 0; i < theMesh->numFaces(); i++) {
 		SimFace *f = theMesh->indFace(i);
 		for (int j = 0; j < 3; j++) {
@@ -60,6 +63,18 @@ void ModelView::computeTangentSpace() {
 			std::pair<float, float> deltaUV1 = std::make_pair(uv1.first - uv0.first, uv1.second - uv0.second);
 			std::pair<float, float> deltaUV2 = std::make_pair(uv2.first - uv0.first, uv2.second - uv0.second);
 
+			float r = 1.0f / (deltaUV1.first * deltaUV2.second - deltaUV1.second * deltaUV2.first);
+			Point tangent = (deltaPos1 * deltaUV2.second - deltaPos2 * deltaUV1.second) * r;
+			Point n = theNormals->vNormals[v0->idx];
+			tangent = tangent - n * (n * tangent);
+			tangent /= tangent.norm();
+			Point bitangent = tangent ^ n;
+			if (theTexture->mode == MeshTexture::VERTEX_MODE) {
+				tangents[v0->idx] = tangent;
+			}
+			else {
+				tangents.push_back(tangent);
+			}
 		}
 	}
 }

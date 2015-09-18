@@ -5,9 +5,9 @@
 typedef struct{
 	vec4 position;
 	vec4 color;
-//	vec4 edge_color;
 	vec3 normal;
 	vec2 texCoord;
+	vec3 tangent;
 }vertex;
 
 void openglBufferData::loadBufferData() {
@@ -49,8 +49,10 @@ void openglBufferData::loadBufferData() {
 			for (int j = 0; j < 3; j++) {
 				SimVertex *v = f->ver[j];
 				data[i * 3 + j].position = vec4(theMesh->indVertex(v->idx)->p[0], theMesh->indVertex(v->idx)->p[1], theMesh->indVertex(v->idx)->p[2], 1.0);
-				if (theNormals)
+				if (theNormals) {
 					data[i * 3 + j].normal = vec3(theNormals->vNormals[v->idx][0], theNormals->vNormals[v->idx][1], theNormals->vNormals[v->idx][2]);
+					data[i * 3 + j].tangent = vec3(theModelView->tangents[i * 3 + j][0], theModelView->tangents[i * 3 + j][1], theModelView->tangents[i * 3 + j][2]);
+				}
 				data[i * 3 + j].texCoord = vec2(theTexture->getU(v, f), theTexture->getV(v, f));
 			}
 		}
@@ -62,6 +64,10 @@ void openglBufferData::loadBufferData() {
 	if (theTexture) {
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), BUFFER_OFFSET(2 * sizeof(vec4) + sizeof(vec3)));
+		if (theNormals) {
+			glEnableVertexAttribArray(4);
+			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), BUFFER_OFFSET(2 * sizeof(vec4) + sizeof(vec3) + sizeof(vec2)));
+		}
 	}
 	else {
 		glEnableVertexAttribArray(1);
@@ -124,6 +130,19 @@ void openglBufferData::loadBufferData() {
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, GL_formatted_image.width(),
 		GL_formatted_image.height(),
 		0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image.bits() );
+		glBindTexture(GL_TEXTURE_2D, 0);
+		QImage GL_formatted_image2 = QGLWidget::convertToGLFormat(QImage("normal.bmp"));
+		glGenTextures(1, &normalTexture);
+		glBindTexture(GL_TEXTURE_2D, normalTexture);
+		//get the OpenGL-friendly image
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//generate the texture
+		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, GL_formatted_image2.width(),
+			GL_formatted_image2.height(),
+			0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image2.bits() );
 		glBindTexture(GL_TEXTURE_2D, 0);
 		
 	}

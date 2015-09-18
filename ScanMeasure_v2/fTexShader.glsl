@@ -1,17 +1,17 @@
 #version 330 core
 
 uniform mat4 ModelViewMatrix;
-uniform vec4 lightPosition;
 uniform vec4 ambientLight;
 uniform vec4 diffuseLight;
 uniform vec4 specularLight;
-uniform vec4 cameraPosition;
 uniform sampler2D ambientTexture;
 uniform sampler2DShadow shadowMap;
+uniform sampler2D normalTexture;
 
+
+in vec3 cameraPosition_modelspace;
+in vec3 lightPosition_modelspace;
 in vec2 fTexCoord;
-in vec3 fragNormal;
-in vec4 fragVert;
 in vec4 shadowCoord;
 
 layout(location = 0) out vec4 fragColor;
@@ -42,15 +42,13 @@ void main(void)
     vec4 tD = texture(ambientTexture, fTexCoord);
     vec4 tS = texture(ambientTexture, fTexCoord);
 
-	mat3 normalMatrix = transpose(inverse(mat3(ModelViewMatrix)));
-	vec3 n = normalize(normalMatrix * fragNormal);
-
-	vec3 fragPosition = vec3(ModelViewMatrix * fragVert);
-	vec3 fLight = normalize(vec3(lightPosition) - fragPosition);
+//	vec3 n = normalize(texture2D( normalTexture, vec2(fTexCoord.x,fTexCoord.y) ).rgb*2.0 - 1.0);
+	vec3 n = vec3(0.0, 0.0, 1.0);
+	vec3 fLight = normalize(lightPosition_modelspace);
 	float kD = max(dot(fLight, n), 0);
 
 	vec3 N = reflect(-fLight, n);
-	vec3 V = normalize(vec3(cameraPosition) - fragPosition);
+	vec3 V = normalize(cameraPosition_modelspace);
 	float kS = pow(max(dot(N, V), 0), 16.0); 
 
 

@@ -44,7 +44,7 @@ void main(void)
 	float kD = max(dot(fLight, n), 0);
 
 	vec3 N = reflect(-fLight, n);
-	vec3 V = normalize(vec3(cameraPosition) - fragPosition);
+	vec3 V = normalize(-fragPosition);
 	float kS = pow(max(dot(N, V), 0), 16.0); 
 
 //	float attenuation = 1.0 / (1.0 + 5e-7 * pow(length(vec3(cameraPosition) - fragPosition), 2));
