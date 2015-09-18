@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{55D4A836-B12C-4F08-BE0B-121A12FF4996}</ProjectGuid>
+    <RootNamespace>ScanMeasure_v2</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Qt\4.8.3\include;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\SimMeshLib;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\QtViewer;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\MeshLib_Extension;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\MeshLib_Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Qt\4.8.3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Qt\4.8.3\include;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\SimMeshLib;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\QtViewer;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\MeshLib_Extension;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\MeshLib_Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Qt\4.8.3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>D:\code\MeshViewer\ScanMeasure_v2\QtViewer;D:\code\MeshViewer\ScanMeasure_v2\SimMeshLib;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Extension;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Core;C:\Qt\4.8.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Qt\4.8.3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>D:\code\MeshViewer\ScanMeasure_v2\QtViewer;D:\code\MeshViewer\ScanMeasure_v2\SimMeshLib;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Extension;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Core;C:\Qt\4.8.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Qt\4.8.3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="GL_Extension\Angel.h" />
+    <ClInclude Include="GL_Extension\CheckError.h" />
+    <ClInclude Include="GL_Extension\mat.h" />
+    <ClInclude Include="GL_Extension\Shader.h" />
+    <ClInclude Include="GL_Extension\vec.h" />
+    <ClInclude Include="MeshLib_Core\Edge.h" />
+    <ClInclude Include="MeshLib_Core\Face.h" />
+    <ClInclude Include="MeshLib_Core\Halfedge.h" />
+    <ClInclude Include="MeshLib_Core\Iterators.h" />
+    <ClInclude Include="MeshLib_Core\Mesh.h" />
+    <ClInclude Include="MeshLib_Core\Point.h" />
+    <ClInclude Include="MeshLib_Core\Vertex.h" />
+    <ClInclude Include="MeshLib_Extension\MeshColor.h" />
+    <ClInclude Include="MeshLib_Extension\MeshIO.h" />
+    <ClInclude Include="MeshLib_Extension\MeshNormal.h" />
+    <ClInclude Include="MeshLib_Extension\MeshTexture.h" />
+    <ClInclude Include="QtViewer\ModelView.h" />
+    <ClInclude Include="QtViewer\OpenGLBufferData.h" />
+    <ClInclude Include="SimMeshLib\SimEdge.h" />
+    <ClInclude Include="SimMeshLib\SimFace.h" />
+    <ClInclude Include="SimMeshLib\SimMesh.h" />
+    <ClInclude Include="SimMeshLib\SimVertex.h" />
+    <ClInclude Include="QtViewer\Camera.h" />
+    <ClInclude Include="QtViewer\Lighting.h" />
+    <ClInclude Include="QtViewer\QtViewer.h" />
+    <ClInclude Include="QtViewer\SelectedObject.h" />
+    <ClInclude Include="QtViewer\trackball.h" />
+    <ClInclude Include="QtViewer\MainWindow\MainWindow.h" />
+    <ClInclude Include="QtViewer\MainWindow\ui_MainWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GL_Extension\InitShader.cpp" />
+    <ClCompile Include="MeshLib_Core\Mesh.cpp" />
+    <ClCompile Include="MeshLib_Core\Vertex.cpp" />
+    <ClCompile Include="MeshLib_Extension\MeshIO.cpp" />
+    <ClCompile Include="QtViewer\ModelView.cpp" />
+    <ClCompile Include="QtViewer\OpenGLBufferData.cpp" />
+    <ClCompile Include="SimMeshLib\SimMesh.cpp" />
+    <ClCompile Include="QtViewer\QtViewer.cpp" />
+    <ClCompile Include="QtViewer\SelectedObject.cpp" />
+    <ClCompile Include="QtViewer\trackball.cpp" />
+    <ClCompile Include="QtViewer\MainWindow\MainWindow.cpp" />
+    <ClCompile Include="QtViewer\MainWindow\moc_MainWindow.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fDepthShader.glsl" />
+    <None Include="fShader.glsl" />
+    <None Include="fTexShader.glsl" />
+    <None Include="Passthrough.vertexshader" />
+    <None Include="SimpleTexture.fragmentshader" />
+    <None Include="vDepthShader.glsl" />
+    <None Include="vShader.glsl" />
+    <None Include="vTexShader.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

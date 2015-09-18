@@ -1,0 +1,14 @@
+/Debug/*
+/Release/*
+/Backup/*
+*.sdf
+*.htm
+*.opensdf
+ScanMeasure_v2/Debug/*
+ScanMeasure_v2/Release/*
+ScanMeasure_v2/*.jpg
+ScanMeasure_v2/*.mtl
+ScanMeasure_v2/*.obj
+ScanMeasure_v2/*.m
+ScanMeasure_v2/*.ply
+ScanMeasure_v2/*.xyz
