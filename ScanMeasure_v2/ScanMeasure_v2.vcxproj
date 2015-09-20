@@ -77,7 +77,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Qt\4.8.3\include;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\SimMeshLib;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\QtViewer;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\MeshLib_Extension;C:\Users\kzhang4\Documents\ScanMeasure_v2\ScanMeasure_v2\MeshLib_Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Qt\4.8.3\include;D:\code\MeshViewer\ScanMeasure_v2\SimMeshLib;D:\code\MeshViewer\ScanMeasure_v2\QtViewer;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Extension;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -85,7 +85,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;QtOpenGL4.lib;glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Qt\4.8.3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
@@ -166,6 +166,8 @@
     <ClInclude Include="MeshLib_Extension\MeshTexture.h" />
     <ClInclude Include="QtViewer\ModelView.h" />
     <ClInclude Include="QtViewer\OpenGLBufferData.h" />
+    <ClInclude Include="QtViewer\OpenGLSelectionBufferData.h" />
+    <ClInclude Include="QtViewer\PickingViewer.h" />
     <ClInclude Include="SimMeshLib\SimEdge.h" />
     <ClInclude Include="SimMeshLib\SimFace.h" />
     <ClInclude Include="SimMeshLib\SimMesh.h" />
@@ -183,8 +185,11 @@
     <ClCompile Include="MeshLib_Core\Mesh.cpp" />
     <ClCompile Include="MeshLib_Core\Vertex.cpp" />
     <ClCompile Include="MeshLib_Extension\MeshIO.cpp" />
+    <ClCompile Include="QtViewer\moc_PickingViewer.cpp" />
     <ClCompile Include="QtViewer\ModelView.cpp" />
     <ClCompile Include="QtViewer\OpenGLBufferData.cpp" />
+    <ClCompile Include="QtViewer\OpenGLSelectionBufferData.cpp" />
+    <ClCompile Include="QtViewer\PickingViewer.cpp" />
     <ClCompile Include="SimMeshLib\SimMesh.cpp" />
     <ClCompile Include="QtViewer\QtViewer.cpp" />
     <ClCompile Include="QtViewer\SelectedObject.cpp" />
@@ -195,11 +200,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fDepthShader.glsl" />
+    <None Include="fSelectionShader.glsl" />
     <None Include="fShader.glsl" />
     <None Include="fTexShader.glsl" />
-    <None Include="Passthrough.vertexshader" />
-    <None Include="SimpleTexture.fragmentshader" />
     <None Include="vDepthShader.glsl" />
+    <None Include="vSelectionShader.glsl" />
     <None Include="vShader.glsl" />
     <None Include="vTexShader.glsl" />
   </ItemGroup>

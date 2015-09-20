@@ -23,7 +23,7 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
-#include "../QtViewer.h"
+#include "../PickingViewer.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -37,7 +37,7 @@ public:
 	QAction *actionWireframe;
 	QWidget *centralwidget;
 	QHBoxLayout *horizontalLayout;
-	QtViewer *DisplayWidget;
+	PickingViewer *DisplayWidget;
 	QVBoxLayout *verticalLayout;
 	QPushButton *pushButton;
 	QPushButton *pushButton2;
@@ -68,7 +68,7 @@ public:
 		horizontalLayout = new QHBoxLayout(centralwidget);
 		horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
 		horizontalLayout->setContentsMargins(0, 0, 0, 0);
-		DisplayWidget = new QtViewer;
+		DisplayWidget = new PickingViewer;
 		DisplayWidget->setObjectName(QString::fromUtf8("DisplayWidget"));
 
 		horizontalLayout->addWidget(DisplayWidget);

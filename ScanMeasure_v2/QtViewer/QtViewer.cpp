@@ -184,12 +184,12 @@ void QtViewer::paintGL(){
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->texture);
 			glUniform1i(shaderProgram->texture, 1);
-			if (theModelView[i]->theNormals) {
-				glActiveTexture(GL_TEXTURE2);
-				glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->normalTexture);
-				GLuint normalTexture = glGetUniformLocation(shaderProgram->shaderProgram, "normalTexture");
-				glUniform1i(normalTexture, m_bufferData[i]->normalTexture);
-			}
+			//if (theModelView[i]->theNormals) {
+			//	glActiveTexture(GL_TEXTURE2);
+			//	glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->normalTexture);
+			//	GLuint normalTexture = glGetUniformLocation(shaderProgram->shaderProgram, "normalTexture");
+			//	glUniform1i(normalTexture, m_bufferData[i]->normalTexture);
+			//}
 		}
 
 		glEnable(GL_POLYGON_OFFSET_FILL);
@@ -300,7 +300,7 @@ void QtViewer::setModelView(ModelView * modelView)
 	showMesh.push_back(true);
 	SetCameraFromModelView();
 	modelView->computeTangentSpace();
-	openglBufferData *bufferData = new openglBufferData(modelView);
+	OpenglBufferData *bufferData = new OpenglBufferData(modelView);
 	bufferData->loadBufferData();
 	m_bufferData.push_back(bufferData);
 	Point n = theCamera.position - theModelView[0]->center;
@@ -334,7 +334,7 @@ void QtViewer::clear()
 
 void QtViewer::Render_Mesh(int idx)
 {
-	openglBufferData *bufferData = m_bufferData[idx];
+	OpenglBufferData *bufferData = m_bufferData[idx];
 	if (!bufferData->vao) return;
 	//Render the mesh (you may need to change them, according to your mesh data structure)
 	//Non-immediate mode
@@ -346,13 +346,14 @@ void QtViewer::Render_Mesh(int idx)
 
 void QtViewer::Render_Mesh_Edge(int idx)
 {
-	openglBufferData *bufferData = m_bufferData[idx];
+	OpenglBufferData *bufferData = m_bufferData[idx];
 	if (!bufferData->vao_wireFrame) return;
 	//Render the mesh (you may need to change them, according to your mesh data structure)
 	//Non-immediate mode
 
 	glBindVertexArray(bufferData->vao_wireFrame);
 	glDrawElements(GL_LINES, bufferData->theModelView->theMesh->numEdges() * 2, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+	glBindVertexArray(0);
 }
 
 void QtViewer::drawFloor()
@@ -411,7 +412,7 @@ void QtViewer::createPlane(Point p, Point norm, double length)
 	ModelView *theModelView = new ModelView;
 	theModelView->color = Point(1.0f, 1.0f, 1.0f);
 	theModelView->LoadMesh(theMesh);
-	floor = new openglBufferData(theModelView);
+	floor = new OpenglBufferData(theModelView);
 	floor->loadBufferData();
 
 }

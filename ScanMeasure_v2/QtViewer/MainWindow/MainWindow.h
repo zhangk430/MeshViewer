@@ -12,7 +12,7 @@ class MyWindow : public QMainWindow
 
 private:
 	Ui::MainWindow ui;
-	QtViewer * m_viewer;
+	PickingViewer * m_viewer;
 public:
 	MyWindow();
 	~MyWindow();

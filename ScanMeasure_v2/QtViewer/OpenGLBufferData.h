@@ -4,7 +4,7 @@
 #include "ModelView.h"
 #include "../GL_Extension/Angel.h"
 
-class openglBufferData
+class OpenglBufferData
 {
 public:
 	ModelView *theModelView;
@@ -13,11 +13,11 @@ public:
 	GLuint vbo_edge_indices;
 	GLuint vbo_face_indices;
 	GLuint texture, normalTexture;
-	openglBufferData(ModelView *modelView) : theModelView(modelView), vao(0), vao_wireFrame(0), vbo(0), vbo_edge_indices(0), vbo_face_indices(0), 
+	OpenglBufferData(ModelView *modelView) : theModelView(modelView), vao(0), vao_wireFrame(0), vbo(0), vbo_edge_indices(0), vbo_face_indices(0), 
 		texture(0) {
 
 	}
-	~openglBufferData() {
+	~OpenglBufferData() {
 		if (vbo) glDeleteBuffers(1, &vbo);
 		if (vbo_edge_indices) glDeleteBuffers(1, &vbo_edge_indices);
 		if (vbo_face_indices) glDeleteBuffers(1, &vbo_face_indices);

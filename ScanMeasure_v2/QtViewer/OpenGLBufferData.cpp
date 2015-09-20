@@ -10,7 +10,7 @@ typedef struct{
 	vec3 tangent;
 }vertex;
 
-void openglBufferData::loadBufferData() {
+void OpenglBufferData::loadBufferData() {
 	if (!theModelView)
 		return;
 	SimMesh *theMesh = theModelView->theMesh;
@@ -131,19 +131,19 @@ void openglBufferData::loadBufferData() {
 		GL_formatted_image.height(),
 		0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image.bits() );
 		glBindTexture(GL_TEXTURE_2D, 0);
-		QImage GL_formatted_image2 = QGLWidget::convertToGLFormat(QImage("normal.bmp"));
-		glGenTextures(1, &normalTexture);
-		glBindTexture(GL_TEXTURE_2D, normalTexture);
-		//get the OpenGL-friendly image
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		//generate the texture
-		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, GL_formatted_image2.width(),
-			GL_formatted_image2.height(),
-			0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image2.bits() );
-		glBindTexture(GL_TEXTURE_2D, 0);
+		//QImage GL_formatted_image2 = QGLWidget::convertToGLFormat(QImage("normal.bmp"));
+		//glGenTextures(1, &normalTexture);
+		//glBindTexture(GL_TEXTURE_2D, normalTexture);
+		////get the OpenGL-friendly image
+		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		////generate the texture
+		//glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, GL_formatted_image2.width(),
+		//	GL_formatted_image2.height(),
+		//	0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image2.bits() );
+		//glBindTexture(GL_TEXTURE_2D, 0);
 		
 	}
 

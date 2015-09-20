@@ -81,8 +81,8 @@ protected:
 	Camera theCamera;
 	Light light0;
 	std::vector<ModelView *> theModelView;
-	std::vector<openglBufferData *> m_bufferData;
-	openglBufferData *floor;
+	std::vector<OpenglBufferData *> m_bufferData;
+	OpenglBufferData *floor;
 
 	Shader colorShaderProgram, textureShadedrProgram, shadowShaderProgram;
 	GLuint frameBufferName, depthTexture, texID;

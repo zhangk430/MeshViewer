@@ -108,6 +108,12 @@
     <ClInclude Include="QtViewer\OpenGLBufferData.h">
       <Filter>QtViewer</Filter>
     </ClInclude>
+    <ClInclude Include="QtViewer\PickingViewer.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\OpenGLSelectionBufferData.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshLib_Core\Mesh.cpp">
@@ -147,6 +153,15 @@
     <ClCompile Include="QtViewer\OpenGLBufferData.cpp">
       <Filter>QtViewer</Filter>
     </ClCompile>
+    <ClCompile Include="QtViewer\PickingViewer.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\OpenGLSelectionBufferData.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\moc_PickingViewer.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="vShader.glsl">
@@ -167,10 +182,10 @@
     <None Include="vDepthShader.glsl">
       <Filter>QtViewer</Filter>
     </None>
-    <None Include="Passthrough.vertexshader">
+    <None Include="fSelectionShader.glsl">
       <Filter>QtViewer</Filter>
     </None>
-    <None Include="SimpleTexture.fragmentshader">
+    <None Include="vSelectionShader.glsl">
       <Filter>QtViewer</Filter>
     </None>
   </ItemGroup>

@@ -2,7 +2,7 @@
 #define PICKING_VIEWER_H
 
 #include <QtViewer.h>
-#include <SelectedObject.h>
+#include "OpenGLSelectionBufferData.h"
 
 
 class PickingViewer : public QtViewer
@@ -14,24 +14,19 @@ class PickingViewer : public QtViewer
 public:
 
 
-	PickingViewer(QWidget * obj = 0) : QtViewer(obj){}
+	PickingViewer(QWidget * obj = 0) : QtViewer(obj), selectedBufferData(NULL){
+		selectionShaderProgram.init("vSelectionShader.glsl", "fSelectionShader.glsl", "fragColor");
+	}
 
+	virtual void setModelView(ModelView * modelView);
 
 	virtual void paintGL();
 	virtual void mousePressEvent(QMouseEvent *);
 
-
-	virtual void Render_Mesh();
-	virtual void Render_Mesh_Edge();
-
 	void select();
 	void drawSelectObject();
-	void ProcessHits(GLint hits, GLuint buffer[]);
+	void drawSelectedObject();
 
-
-	void loadSelectedVertices(const char filename[]);
-	void loadSelectedVerticesByPosition(const char filename[]);
-	void saveSelectedVertices(const char filename[]);
 	void clearSelection();
 	virtual void clear();
 	
@@ -39,9 +34,9 @@ public:
 protected:
 
 	SelectedObject m_selectObject;
+	OpenGLSelectionBufferData *selectedBufferData;
 
-	int findClosestPoints(Point p);
-
+	Shader selectionShaderProgram;
 
 
 	private slots:
