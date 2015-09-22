@@ -49,7 +49,6 @@ public:
 	virtual void mouseReleaseEvent(QMouseEvent *);
 
 	virtual void setModelView(ModelView * modelView);
-	void setTexture();
 
 	void ShowWireFrame(bool ifshow);
 	virtual void clear();
@@ -73,7 +72,8 @@ protected:
 	virtual void Render_Mesh_Edge(int idx);
 
 	QPointF pixelPosToViewPos(const QPointF& p);
-
+	QPointF viewPosToPixelPos(const QPointF& p);
+	QPointF viewPosToPixelPos(Point& p);
 
 	
 protected:

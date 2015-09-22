@@ -168,6 +168,7 @@
     <ClInclude Include="QtViewer\OpenGLBufferData.h" />
     <ClInclude Include="QtViewer\OpenGLSelectionBufferData.h" />
     <ClInclude Include="QtViewer\PickingViewer.h" />
+    <ClInclude Include="QtViewer\RenderText.h" />
     <ClInclude Include="SimMeshLib\SimEdge.h" />
     <ClInclude Include="SimMeshLib\SimFace.h" />
     <ClInclude Include="SimMeshLib\SimMesh.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="QtViewer\OpenGLBufferData.cpp" />
     <ClCompile Include="QtViewer\OpenGLSelectionBufferData.cpp" />
     <ClCompile Include="QtViewer\PickingViewer.cpp" />
+    <ClCompile Include="QtViewer\RenderText.cpp" />
     <ClCompile Include="SimMeshLib\SimMesh.cpp" />
     <ClCompile Include="QtViewer\QtViewer.cpp" />
     <ClCompile Include="QtViewer\SelectedObject.cpp" />
@@ -200,10 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fDepthShader.glsl" />
+    <None Include="fFontShader.glsl" />
     <None Include="fSelectionShader.glsl" />
     <None Include="fShader.glsl" />
     <None Include="fTexShader.glsl" />
     <None Include="vDepthShader.glsl" />
+    <None Include="vFontShader.glsl" />
     <None Include="vSelectionShader.glsl" />
     <None Include="vShader.glsl" />
     <None Include="vTexShader.glsl" />

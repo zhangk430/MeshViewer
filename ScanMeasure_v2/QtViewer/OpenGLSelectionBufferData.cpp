@@ -14,7 +14,7 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		glBindVertexArray(vao);
 	}
 	if (m_obj->mode == SelectedObject::Vertex_Mode) {
-		int start_id = 0, numVertices = 0;
+		int start_id = 1, numVertices = 0;
 		for (int i = 0; i < theModelView.size(); i++) 
 			numVertices += theModelView[i]->theMesh->numVertices();
 		selected_vertex *vertex_data = new selected_vertex[numVertices];
@@ -23,12 +23,12 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 			SimMesh *theMesh = theModelView[i]->theMesh;
 			for (int j = 0; j < theMesh->numVertices(); j++) {
 				int id = start_id + j;
-				vertex_data[id].position = vec4(theMesh->indVertex(j)->p[0], theMesh->indVertex(j)->p[1], theMesh->indVertex(j)->p[2], 1.0);
+				vertex_data[id - 1].position = vec4(theMesh->indVertex(j)->p[0], theMesh->indVertex(j)->p[1], theMesh->indVertex(j)->p[2], 1.0);
 				int r = (id & 0x000000FF) >> 0;
 				int g = (id & 0x0000FF00) >> 8;
 				int b = (id & 0x00FF0000) >> 16;
-				vertex_data[id].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-				vertex_indices[id] = id;
+				vertex_data[id - 1].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+				vertex_indices[id - 1] = id - 1;
 			}
 			start_id += theMesh->numVertices();
 		}
@@ -39,7 +39,6 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(selected_vertex), BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(selected_vertex), BUFFER_OFFSET(sizeof(vec4)));
-		std::cout << numVertices << std::endl;
 		glGenBuffers(1, &vbo_indices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_indices);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numVertices * sizeof(unsigned int), vertex_indices, GL_STATIC_DRAW);
@@ -49,7 +48,7 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		bufferSize = numVertices;
 	}
 	else if (m_obj->mode == SelectedObject::Edge_Mode) {
-		int start_id = 0, numEdges = 0;
+		int start_id = 1, numEdges = 0;
 		for (int i = 0; i < theModelView.size(); i++) 
 			numEdges += theModelView[i]->theMesh->numEdges();
 		selected_vertex *vertex_data = new selected_vertex[numEdges * 2];
@@ -61,15 +60,15 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 				SimVertex *v0 = e->v0;
 				SimVertex *v1 = e->v1;
 				int id = start_id + j;
-				vertex_data[2 * id].position = vec4(v0->p[0], v0->p[1], v0->p[2], 1.0);
-				vertex_data[2 * id + 1].position = vec4(v1->p[0], v1->p[1], v1->p[2], 1.0);
+				vertex_data[2 * id - 2].position = vec4(v0->p[0], v0->p[1], v0->p[2], 1.0);
+				vertex_data[2 * id - 1].position = vec4(v1->p[0], v1->p[1], v1->p[2], 1.0);
 				int r = (id & 0x000000FF) >> 0;
 				int g = (id & 0x0000FF00) >> 8;
 				int b = (id & 0x00FF0000) >> 16;
-				vertex_data[2 * id].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-				vertex_data[2 * id + 1].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-				vertex_indices[2 * id] = 2 * id;
-				vertex_indices[2 * id + 1] = 2 * id + 1;
+				vertex_data[2 * id - 2].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+				vertex_data[2 * id - 1].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+				vertex_indices[2 * id - 2] = 2 * id - 2;
+				vertex_indices[2 * id - 1] = 2 * id - 1;
 			}
 			start_id += theMesh->numEdges();
 		}
@@ -89,7 +88,7 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		bufferSize = numEdges * 2;
 	}
 	else if (m_obj->mode == SelectedObject::Face_Mode) {
-		int start_id = 0, numFaces = 0;
+		int start_id = 1, numFaces = 0;
 		for (int i = 0; i < theModelView.size(); i++) 
 			numFaces += theModelView[i]->theMesh->numFaces();
 		selected_vertex *vertex_data = new selected_vertex[numFaces * 3];
@@ -103,9 +102,9 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 				int b = (id & 0x00FF0000) >> 16;
 				SimFace *f = theMesh->indFace(j);
 				for (int k = 0; k < 3; k++) {
-					vertex_data[3 * id + k].position = vec4(f->ver[k]->p[0], f->ver[k]->p[1], f->ver[k]->p[2], 1.0);
-					vertex_data[3 * id + k].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-					vertex_indices[3 * id + k] = 3 * id + k;
+					vertex_data[3 * id + k - 3].position = vec4(f->ver[k]->p[0], f->ver[k]->p[1], f->ver[k]->p[2], 1.0);
+					vertex_data[3 * id + k - 3].color = vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+					vertex_indices[3 * id + k - 3] = 3 * id + k - 3;
 				}
 			}
 			start_id += theMesh->numFaces();

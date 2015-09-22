@@ -114,6 +114,9 @@
     <ClInclude Include="QtViewer\OpenGLSelectionBufferData.h">
       <Filter>QtViewer</Filter>
     </ClInclude>
+    <ClInclude Include="QtViewer\RenderText.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshLib_Core\Mesh.cpp">
@@ -162,6 +165,9 @@
     <ClCompile Include="QtViewer\moc_PickingViewer.cpp">
       <Filter>QtViewer</Filter>
     </ClCompile>
+    <ClCompile Include="QtViewer\RenderText.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="vShader.glsl">
@@ -186,6 +192,12 @@
       <Filter>QtViewer</Filter>
     </None>
     <None Include="vSelectionShader.glsl">
+      <Filter>QtViewer</Filter>
+    </None>
+    <None Include="fFontShader.glsl">
+      <Filter>QtViewer</Filter>
+    </None>
+    <None Include="vFontShader.glsl">
       <Filter>QtViewer</Filter>
     </None>
   </ItemGroup>

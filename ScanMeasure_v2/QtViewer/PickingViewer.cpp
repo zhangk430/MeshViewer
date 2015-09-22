@@ -13,6 +13,8 @@ void PickingViewer::setModelView(ModelView * modelView) {
 
 void PickingViewer::paintGL()
 {
+	glLineWidth(1);
+	glPointSize(1);
 	QtViewer::paintGL();
 	glUseProgram(selectionShaderProgram.shaderProgram);
 	glUniformMatrix4fv(selectionShaderProgram.modelViewMatrixUniform, 1, GL_TRUE, getModelViewMatrix());
@@ -27,9 +29,33 @@ void PickingViewer::paintGL()
 	glPointSize(5);
 	glLineWidth(3);
 	drawSelectedObject();
-	glLineWidth(1);
-	glPointSize(1);
 	glUseProgram(0);
+	font.f = QFont("Helvetica", 18);
+	font.generateFontTexture();
+	typedef stdext::hash_map<SimVertex *, int>::iterator vertexIterator; 
+	for (vertexIterator vit = m_selectObject.selectedVertex.begin(); vit != m_selectObject.selectedVertex.end(); ++vit)
+	{
+		std::pair<SimVertex *, int> sv = *vit;
+		std::string s = "v" + std::to_string(sv.second);
+		QPointF pos = viewPosToPixelPos(sv.first->p);
+		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0/255, 87.0/255, 1.0));
+	}
+	typedef stdext::hash_map<SimEdge *, int>::iterator edgeIterator; 
+	for (edgeIterator eit = m_selectObject.selectedEdge.begin(); eit != m_selectObject.selectedEdge.end(); ++eit)
+	{
+		std::pair<SimEdge *, int> ev = *eit;
+		std::string s = "e" + std::to_string(ev.second);
+		QPointF pos = viewPosToPixelPos((ev.first->v0->p + ev.first->v1->p) / 2);
+		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0/255, 87.0/255, 1.0));
+	}
+	typedef stdext::hash_map<SimFace *, int>::iterator faceIterator; 
+	for (faceIterator fit = m_selectObject.selectedFace.begin(); fit != m_selectObject.selectedFace.end(); ++fit)
+	{
+		std::pair<SimFace *, int> fv = *fit;
+		std::string s = "f" + std::to_string(fv.second);
+		QPointF pos = viewPosToPixelPos((fv.first->ver[0]->p + fv.first->ver[1]->p + fv.first->ver[2]->p) / 3);
+		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0/255, 87.0/255, 1.0));
+	}
 }
 
 void PickingViewer::mousePressEvent(QMouseEvent *event)
@@ -103,17 +129,14 @@ void PickingViewer::select()
 	drawSelectObject();
 	glFlush();
 	glFinish();
-	glLineWidth(1);
-	glPointSize(1);
 	glUseProgram(0);
-
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	int coordX = mouseX;
 	int coordY = viewport[3] - mouseY;
 	unsigned char data[4];
 	glReadPixels(coordX, coordY, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	int pickedID = data[0] + data[1] * 256 + data[2] * 256 * 256;
-	if (pickedID != 0x00FFFFFF) {
+	int pickedID = data[0] + data[1] * 256 + data[2] * 256 * 256 - 1;
+	if (pickedID >= 0 && pickedID != 0x00FFFFFF) {
 		if (m_selectObject.mode == SelectedObject::Vertex_Mode) {
 			int i = 0;
 			while (i < theModelView.size() && pickedID > theModelView[i]->theMesh->numVertices()) {
@@ -127,8 +150,11 @@ void PickingViewer::select()
 					m_selectObject.selectedVertex.erase(m_selectObject.selectedVertex.find(v));
 					m_selectObject.updateSelectionOrder();
 				}
-				else 
+				else {
 					m_selectObject.selectedVertex[v] = m_selectObject.selectedVertex.size() + 1;
+					std::cout << "Vertex " << v->idx << " is chosen\n";
+					std::cout << "position " << v->p[0] << " " << v->p[1] << " " << v->p[2] << std::endl;
+				}
 			}
 			
 		}
@@ -145,8 +171,11 @@ void PickingViewer::select()
 					m_selectObject.selectedEdge.erase(m_selectObject.selectedEdge.find(e));
 					m_selectObject.updateSelectionOrder();
 				}
-				else 
+				else {
 					m_selectObject.selectedEdge[e] = m_selectObject.selectedEdge.size() + 1;
+					std::cout << "Edge " << e->idx << " is chosen\n";
+					std::cout << "two endpoints " << e->v0->idx << " " << e->v1->idx << std::endl;
+				}
 			}
 		}
 		else if (m_selectObject.mode == SelectedObject::Face_Mode) {
@@ -162,12 +191,16 @@ void PickingViewer::select()
 					m_selectObject.selectedFace.erase(m_selectObject.selectedFace.find(f));
 					m_selectObject.updateSelectionOrder();
 				}
-				else 
+				else {
 					m_selectObject.selectedFace[f] = m_selectObject.selectedFace.size() + 1;
+					std::cout << "Face " << f->idx << " is chosen\n";
+					std::cout << "Three corners " << f->ver[0]->idx << " " << f->ver[1]->idx << " " << f->ver[2]->idx << std::endl;
+				}
 			}
 		}
 	}
 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
 	selectedBufferData->loadSelectedObjBufferData();
@@ -190,6 +223,39 @@ void PickingViewer::drawSelectedObject() {
 		glDrawElements(selectedBufferData->sobj_mode, selectedBufferData->sobj_bufferSize, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 		glBindVertexArray(0);
 	}
+}
+
+void PickingViewer::drawText(float x, float y, const std::string &s, vec3 color) {
+
+	glUseProgram(fontShaderProgram);
+	glDisable(GL_DEPTH_TEST);
+	GLuint xpos = glGetUniformLocation(fontShaderProgram, "xpos");
+	GLuint ypos = glGetUniformLocation(fontShaderProgram, "ypos");
+	GLuint scaleX = glGetUniformLocation(fontShaderProgram, "scaleX");
+	GLuint scaleY = glGetUniformLocation(fontShaderProgram, "scaleY");
+	GLuint textColor =  glGetUniformLocation(fontShaderProgram, "textColor");
+	GLuint tex = glGetUniformLocation(fontShaderProgram, "tex");
+	glUniform1f(ypos, y);
+	glUniform1f(scaleX, 2.0 / windowWidth);
+	glUniform1f(scaleY, 2.0 / windowHeight);
+	glUniform3fv(textColor, 1, (const GLfloat *)&color);
+	glActiveTexture(GL_TEXTURE0);
+	for (int i = 0; i < s.size(); i++)
+	{
+		glUniform1f(xpos, x);
+		FontChar * f = font.m_characters[s[i]];
+		glBindTexture(GL_TEXTURE_2D, f->textureID);
+		glUniform1i(tex, 0);
+
+		glBindVertexArray(f->vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		glBindVertexArray(0);
+
+		x += f->width;
+	}
+
+	glEnable(GL_DEPTH_TEST);
+	glUseProgram(0);
 }
 
 void PickingViewer::turnOnSelectionFace() { 

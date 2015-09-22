@@ -184,12 +184,6 @@ void QtViewer::paintGL(){
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->texture);
 			glUniform1i(shaderProgram->texture, 1);
-			//if (theModelView[i]->theNormals) {
-			//	glActiveTexture(GL_TEXTURE2);
-			//	glBindTexture(GL_TEXTURE_2D, m_bufferData[i]->normalTexture);
-			//	GLuint normalTexture = glGetUniformLocation(shaderProgram->shaderProgram, "normalTexture");
-			//	glUniform1i(normalTexture, m_bufferData[i]->normalTexture);
-			//}
 		}
 
 		glEnable(GL_POLYGON_OFFSET_FILL);
@@ -417,11 +411,23 @@ void QtViewer::createPlane(Point p, Point norm, double length)
 
 }
 
-QPointF QtViewer::pixelPosToViewPos(const QPointF& p)
-{
+QPointF QtViewer::pixelPosToViewPos(const QPointF& p) {
 	return QPointF(2.0 * float(p.x()) / width() - 1.0,
 		1.0 - 2.0 * float(p.y()) / height());
 }
+
+QPointF QtViewer::viewPosToPixelPos(const QPointF& p) {
+	return QPointF(((float)p.x() + 1) * width() / 2.0,
+		(1.0 - (float)p.y()) * height() / 2.0);
+}
+
+QPointF QtViewer::viewPosToPixelPos(Point& p) {
+	vec4 v(p[0], p[1], p[2], 1);
+	vec4 v_view = getProjectionMatrix() * getModelViewMatrix() * v;
+	return viewPosToPixelPos(QPointF(v_view[0] / v_view[3], v_view[1] / v_view[3]));
+}
+
+
 
 bool QtViewer::generateDepthBuffer() {
 	
