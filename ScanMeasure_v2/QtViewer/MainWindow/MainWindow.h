@@ -3,6 +3,7 @@
 
 
 #include "ui_MainWindow.h"
+#include <QtCore/QSignalMapper>
 
 
 class MyWindow : public QMainWindow
@@ -13,11 +14,10 @@ class MyWindow : public QMainWindow
 private:
 	Ui::MainWindow ui;
 	PickingViewer * m_viewer;
+	QSignalMapper *signalMapper;
 public:
 	MyWindow();
 	~MyWindow();
-
-	void setModelView(ModelView * modelView);
 
 private:
 
@@ -27,11 +27,10 @@ private:
 
 
 		void load();
-//		void loadMarker();
-//		void saveMarker();
+		void import();
 		void showWireFrame(bool show);
-//		void measure();
-//		void saveMeasurement();
+		void showMeshChanged(int row);
+		void showMeshChanged();
 
 };
 

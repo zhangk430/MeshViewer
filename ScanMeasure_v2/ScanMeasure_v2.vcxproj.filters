@@ -117,6 +117,9 @@
     <ClInclude Include="QtViewer\RenderText.h">
       <Filter>QtViewer</Filter>
     </ClInclude>
+    <ClInclude Include="GL_Extension\RenderToTexture.h">
+      <Filter>GL_Extension</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshLib_Core\Mesh.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="QtViewer\RenderText.cpp">
       <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_Extension\RenderToTexture.cpp">
+      <Filter>GL_Extension</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

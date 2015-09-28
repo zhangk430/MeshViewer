@@ -35,9 +35,8 @@ public:
 		shadowShaderProgram.init("vDepthShader.glsl", "fDepthShader.glsl", "fragDepth");
 	}
 
-	~QtViewer(){
-		for (unsigned int i = 0; i < theModelView.size(); i++)
-			delete theModelView[i];
+	virtual ~QtViewer(){
+		clear();
 	}
 
 	virtual void paintGL();
@@ -49,11 +48,14 @@ public:
 	virtual void mouseReleaseEvent(QMouseEvent *);
 
 	virtual void setModelView(ModelView * modelView);
+	virtual void addModelView(ModelView * modelView);
 
 	void ShowWireFrame(bool ifshow);
+	void setShowMesh(int idx, bool ifshow);
 	virtual void clear();
 
 	ModelView * getModelView(unsigned int idx){     return idx >= theModelView.size() ? NULL : theModelView[idx];    }
+	int getModelViewSize() {   return theModelView.size();   }
 
 	void refresh();
 

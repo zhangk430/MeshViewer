@@ -5,8 +5,17 @@
 using namespace std;
 
 
-void PickingViewer::setModelView(ModelView * modelView) {
+void PickingViewer::setModelView(ModelView * modelView)
+{
 	QtViewer::setModelView(modelView);
+	selectedBufferData = new OpenGLSelectionBufferData(theModelView, &m_selectObject);
+	updateGL();
+}
+
+void PickingViewer::addModelView(ModelView * modelView) 
+{
+	QtViewer::addModelView(modelView);
+	delete selectedBufferData;
 	selectedBufferData = new OpenGLSelectionBufferData(theModelView, &m_selectObject);
 	updateGL();
 }
@@ -322,4 +331,5 @@ void PickingViewer::clear()
 	QtViewer::clear();
 	m_selectObject.clear();
 	delete selectedBufferData;
+	selectedBufferData = NULL;
 }

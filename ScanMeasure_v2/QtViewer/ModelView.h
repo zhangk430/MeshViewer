@@ -42,6 +42,7 @@ public:
 	Point boxMin, boxMax;
 	float boxAxisLen;
 	std::vector<Point> tangents;
+	std::string model_name;
 };
 
 #endif

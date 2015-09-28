@@ -17,10 +17,11 @@ public:
 		fontShaderProgram = InitShader("vFontShader.glsl", "fFontShader.glsl", "fragColor");
 	}
 
-	virtual void setModelView(ModelView * modelView);
+	void setModelView(ModelView * modelView);
+	void addModelView(ModelView * modelView);
 
-	virtual void paintGL();
-	virtual void mousePressEvent(QMouseEvent *);
+	void paintGL();
+	void mousePressEvent(QMouseEvent *);
 
 	void select();
 	void drawSelectObject();
@@ -28,7 +29,7 @@ public:
 	void drawText(float x, float y, const std::string &s, vec3 color);
 
 	void clearSelection();
-	virtual void clear();
+	void clear();
 	
 
 protected:

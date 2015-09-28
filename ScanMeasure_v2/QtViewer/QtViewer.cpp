@@ -48,7 +48,8 @@ mat4 QtViewer::getModelViewMatrix()
 	return trans;
 }
 
-mat4 QtViewer::getProjectionMatrix() {
+mat4 QtViewer::getProjectionMatrix()
+{
 	const GLfloat a = GLfloat(windowWidth) / GLfloat(windowHeight);
 	return Perspective(45.f, a, 0.1f, 1e5);
 }
@@ -78,7 +79,8 @@ mat4 QtViewer::getDepthMatrix() {
 	return depthProjectionMatrix * trans;
 }
 
-void QtViewer::paintGL(){	
+void QtViewer::paintGL()
+{	
 //	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	//Render Shadow
@@ -165,8 +167,6 @@ void QtViewer::paintGL(){
 	Shader * shaderProgram = NULL;
 	glPolygonOffset(1.0, 1.0);
 	for (int i = 0; i < theModelView.size(); i++) {
-		if (!showMesh[i])
-			continue;
 		if (theModelView[i]->theTexture)
 			shaderProgram = &textureShadedrProgram;
 		else 
@@ -208,8 +208,8 @@ void QtViewer::paintGL(){
 	}
 }
 
-void QtViewer::initializeGL(){
-
+void QtViewer::initializeGL()
+{
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 //	glEnable(GL_CULL_FACE);
@@ -225,7 +225,8 @@ void QtViewer::initializeGL(){
 	glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
 }
 
-void QtViewer::resizeGL(int w, int h){	
+void QtViewer::resizeGL(int w, int h)
+{	
 	glViewport (0, 0, (GLsizei) w, (GLsizei) h);
 	windowWidth = w;
 	windowHeight = h;
@@ -304,10 +305,29 @@ void QtViewer::setModelView(ModelView * modelView)
 	updateGL();
 }
 
+void QtViewer::addModelView(ModelView * modelView) 
+{
+	theModelView.push_back(modelView);
+	showMesh.push_back(true);
+	modelView->computeTangentSpace();
+	OpenglBufferData *bufferData = new OpenglBufferData(modelView);
+	bufferData->loadBufferData();
+	m_bufferData.push_back(bufferData);
+	updateGL();
+}
+
 void QtViewer::ShowWireFrame(bool ifshow)
 {
 	showWireFrame = ifshow;
 	updateGL();
+}
+
+void QtViewer::setShowMesh(int idx, bool ifshow) 
+{
+	if (idx < showMesh.size()) {
+		showMesh[idx] = ifshow;
+		updateGL();
+	}
 }
 
 void QtViewer::clear()
@@ -329,7 +349,7 @@ void QtViewer::clear()
 void QtViewer::Render_Mesh(int idx)
 {
 	OpenglBufferData *bufferData = m_bufferData[idx];
-	if (!bufferData->vao) return;
+	if (!bufferData->vao || !showMesh[idx]) return;
 	//Render the mesh (you may need to change them, according to your mesh data structure)
 	//Non-immediate mode
 
@@ -341,7 +361,7 @@ void QtViewer::Render_Mesh(int idx)
 void QtViewer::Render_Mesh_Edge(int idx)
 {
 	OpenglBufferData *bufferData = m_bufferData[idx];
-	if (!bufferData->vao_wireFrame) return;
+	if (!bufferData->vao_wireFrame || !showMesh[idx]) return;
 	//Render the mesh (you may need to change them, according to your mesh data structure)
 	//Non-immediate mode
 

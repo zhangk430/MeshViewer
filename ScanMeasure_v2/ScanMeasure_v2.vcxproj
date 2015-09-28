@@ -151,6 +151,7 @@
     <ClInclude Include="GL_Extension\Angel.h" />
     <ClInclude Include="GL_Extension\CheckError.h" />
     <ClInclude Include="GL_Extension\mat.h" />
+    <ClInclude Include="GL_Extension\RenderToTexture.h" />
     <ClInclude Include="GL_Extension\Shader.h" />
     <ClInclude Include="GL_Extension\vec.h" />
     <ClInclude Include="MeshLib_Core\Edge.h" />
@@ -183,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GL_Extension\InitShader.cpp" />
+    <ClCompile Include="GL_Extension\RenderToTexture.cpp" />
     <ClCompile Include="MeshLib_Core\Mesh.cpp" />
     <ClCompile Include="MeshLib_Core\Vertex.cpp" />
     <ClCompile Include="MeshLib_Extension\MeshIO.cpp" />
