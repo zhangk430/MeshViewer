@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <Point.h>
+#include "../SimMeshLib/Point.h"
 
 class Camera{
 public:

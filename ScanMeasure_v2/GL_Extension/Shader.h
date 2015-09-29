@@ -2,7 +2,6 @@
 #define SHADER_H
 
 #include "Angel.h"
-#include <iostream>
 
 struct Shader
 {

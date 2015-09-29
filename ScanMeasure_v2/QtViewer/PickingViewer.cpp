@@ -1,6 +1,4 @@
 #include "PickingViewer.h"
-#include <algorithm>
-#include <fstream>
 
 using namespace std;
 
@@ -30,7 +28,7 @@ void PickingViewer::paintGL()
 	glUniformMatrix4fv(selectionShaderProgram.projectionMatrixUniform, 1, GL_TRUE, getProjectionMatrix());
 	if (m_selectObject.mode != SelectedObject::NONE && !showWireFrame) {
 
-		for (int i = 0; i < theModelView.size(); i++) {
+		for (size_t i = 0; i < theModelView.size(); i++) {
 			Render_Mesh_Edge(i);
 		}
 	}
@@ -47,7 +45,7 @@ void PickingViewer::paintGL()
 		std::pair<SimVertex *, int> sv = *vit;
 		std::string s = "v" + std::to_string(sv.second);
 		QPointF pos = viewPosToPixelPos(sv.first->p);
-		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0/255, 87.0/255, 1.0));
+		drawText((float)pos.x(), windowHeight - pos.y() - 5.0f, s, vec3(79.0f/255, 87.0f/255, 1.0f));
 	}
 	typedef stdext::hash_map<SimEdge *, int>::iterator edgeIterator; 
 	for (edgeIterator eit = m_selectObject.selectedEdge.begin(); eit != m_selectObject.selectedEdge.end(); ++eit)
@@ -55,7 +53,7 @@ void PickingViewer::paintGL()
 		std::pair<SimEdge *, int> ev = *eit;
 		std::string s = "e" + std::to_string(ev.second);
 		QPointF pos = viewPosToPixelPos((ev.first->v0->p + ev.first->v1->p) / 2);
-		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0/255, 87.0/255, 1.0));
+		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0f/255, 87.0f/255, 1.0f));
 	}
 	typedef stdext::hash_map<SimFace *, int>::iterator faceIterator; 
 	for (faceIterator fit = m_selectObject.selectedFace.begin(); fit != m_selectObject.selectedFace.end(); ++fit)
@@ -63,7 +61,7 @@ void PickingViewer::paintGL()
 		std::pair<SimFace *, int> fv = *fit;
 		std::string s = "f" + std::to_string(fv.second);
 		QPointF pos = viewPosToPixelPos((fv.first->ver[0]->p + fv.first->ver[1]->p + fv.first->ver[2]->p) / 3);
-		drawText(pos.x(), windowHeight - pos.y() - 5, s, vec3(79.0/255, 87.0/255, 1.0));
+		drawText((float)pos.x(), windowHeight - pos.y() - 5.0f, s, vec3(79.0f/255, 87.0f/255, 1.0f));
 	}
 }
 
@@ -131,7 +129,7 @@ void PickingViewer::select()
 	glLineWidth(5);
 	glPolygonOffset(1.0, 1.0);
 	glEnable(GL_POLYGON_OFFSET_FILL);
-	for (int i = 0; i < theModelView.size() && m_selectObject.mode != SelectedObject::Face_Mode; i++) {
+	for (size_t i = 0; i < theModelView.size() && m_selectObject.mode != SelectedObject::Face_Mode; i++) {
 		Render_Mesh(i);
 	}
 	glDisable(GL_POLYGON_OFFSET_FILL);
@@ -148,11 +146,11 @@ void PickingViewer::select()
 	if (pickedID >= 0 && pickedID != 0x00FFFFFF) {
 		if (m_selectObject.mode == SelectedObject::Vertex_Mode) {
 			int i = 0;
-			while (i < theModelView.size() && pickedID > theModelView[i]->theMesh->numVertices()) {
+			while (i < (int)theModelView.size() && pickedID > (int)theModelView[i]->theMesh->numVertices()) {
 				pickedID -= theModelView[i]->theMesh->numVertices();
 				i++;
 			}
-			if (i < theModelView.size()) {
+			if (i < (int)theModelView.size()) {
 				SimVertex *v = theModelView[i]->theMesh->indVertex(pickedID);
 				if(m_selectObject.selectedVertex.find(v) != m_selectObject.selectedVertex.end())
 				{
@@ -169,11 +167,11 @@ void PickingViewer::select()
 		}
 		else if (m_selectObject.mode == SelectedObject::Edge_Mode) {
 			int i = 0;
-			while (i < theModelView.size() && pickedID > theModelView[i]->theMesh->numEdges()) {
+			while (i < (int)theModelView.size() && pickedID > (int)theModelView[i]->theMesh->numEdges()) {
 				pickedID -= theModelView[i]->theMesh->numEdges();
 				i++;
 			}
-			if (i < theModelView.size()) {
+			if (i < (int)theModelView.size()) {
 				SimEdge *e = theModelView[i]->theMesh->indEdge(pickedID);
 				if(m_selectObject.selectedEdge.find(e) != m_selectObject.selectedEdge.end())
 				{
@@ -189,11 +187,11 @@ void PickingViewer::select()
 		}
 		else if (m_selectObject.mode == SelectedObject::Face_Mode) {
 			int i = 0;
-			while (i < theModelView.size() && pickedID > theModelView[i]->theMesh->numFaces()) {
+			while (i < (int)theModelView.size() && pickedID > (int)theModelView[i]->theMesh->numFaces()) {
 				pickedID -= theModelView[i]->theMesh->numFaces();
 				i++;
 			}
-			if (i < theModelView.size()) {
+			if (i < (int)theModelView.size()) {
 				SimFace *f = theModelView[i]->theMesh->indFace(pickedID);
 				if(m_selectObject.selectedFace.find(f) != m_selectObject.selectedFace.end())
 				{
@@ -249,7 +247,7 @@ void PickingViewer::drawText(float x, float y, const std::string &s, vec3 color)
 	glUniform1f(scaleY, 2.0 / windowHeight);
 	glUniform3fv(textColor, 1, (const GLfloat *)&color);
 	glActiveTexture(GL_TEXTURE0);
-	for (int i = 0; i < s.size(); i++)
+	for (size_t i = 0; i < s.size(); i++)
 	{
 		glUniform1f(xpos, x);
 		FontChar * f = font.m_characters[s[i]];

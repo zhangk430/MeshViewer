@@ -1,8 +1,5 @@
-#include <SimMesh.h>
-#include <algorithm>
+#include "SimMesh.h"
 #include <iostream>
-#include <sstream>
-#include <string>
 
 #pragma warning (disable : 4996)
 #pragma warning (disable : 4018)

@@ -15,15 +15,15 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 	}
 	if (m_obj->mode == SelectedObject::Vertex_Mode) {
 		int start_id = 1, numVertices = 0;
-		for (int i = 0; i < theModelView.size(); i++) 
+		for (size_t i = 0; i < theModelView.size(); i++) 
 			numVertices += theModelView[i]->theMesh->numVertices();
 		selected_vertex *vertex_data = new selected_vertex[numVertices];
 		unsigned int *vertex_indices = new unsigned int[numVertices];
-		for (int i = 0; i < theModelView.size(); i++) {
+		for (size_t i = 0; i < theModelView.size(); i++) {
 			SimMesh *theMesh = theModelView[i]->theMesh;
-			for (int j = 0; j < theMesh->numVertices(); j++) {
+			for (size_t j = 0; j < theMesh->numVertices(); j++) {
 				int id = start_id + j;
-				vertex_data[id - 1].position = vec4(theMesh->indVertex(j)->p[0], theMesh->indVertex(j)->p[1], theMesh->indVertex(j)->p[2], 1.0);
+				vertex_data[id - 1].position = vec4(theMesh->indVertex(j)->p[0], theMesh->indVertex(j)->p[1], theMesh->indVertex(j)->p[2], 1.0f);
 				int r = (id & 0x000000FF) >> 0;
 				int g = (id & 0x0000FF00) >> 8;
 				int b = (id & 0x00FF0000) >> 16;
@@ -49,19 +49,19 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 	}
 	else if (m_obj->mode == SelectedObject::Edge_Mode) {
 		int start_id = 1, numEdges = 0;
-		for (int i = 0; i < theModelView.size(); i++) 
+		for (size_t i = 0; i < theModelView.size(); i++) 
 			numEdges += theModelView[i]->theMesh->numEdges();
 		selected_vertex *vertex_data = new selected_vertex[numEdges * 2];
 		unsigned int *vertex_indices = new unsigned int[numEdges * 2];
-		for (int i = 0; i < theModelView.size(); i++) {
+		for (size_t i = 0; i < theModelView.size(); i++) {
 			SimMesh *theMesh = theModelView[i]->theMesh;
-			for (int j = 0; j < theMesh->numEdges(); j++) {
+			for (size_t j = 0; j < theMesh->numEdges(); j++) {
 				SimEdge *e = theMesh->indEdge(j);
 				SimVertex *v0 = e->v0;
 				SimVertex *v1 = e->v1;
 				int id = start_id + j;
-				vertex_data[2 * id - 2].position = vec4(v0->p[0], v0->p[1], v0->p[2], 1.0);
-				vertex_data[2 * id - 1].position = vec4(v1->p[0], v1->p[1], v1->p[2], 1.0);
+				vertex_data[2 * id - 2].position = vec4(v0->p[0], v0->p[1], v0->p[2], 1.0f);
+				vertex_data[2 * id - 1].position = vec4(v1->p[0], v1->p[1], v1->p[2], 1.0f);
 				int r = (id & 0x000000FF) >> 0;
 				int g = (id & 0x0000FF00) >> 8;
 				int b = (id & 0x00FF0000) >> 16;
@@ -89,13 +89,13 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 	}
 	else if (m_obj->mode == SelectedObject::Face_Mode) {
 		int start_id = 1, numFaces = 0;
-		for (int i = 0; i < theModelView.size(); i++) 
+		for (size_t i = 0; i < theModelView.size(); i++) 
 			numFaces += theModelView[i]->theMesh->numFaces();
 		selected_vertex *vertex_data = new selected_vertex[numFaces * 3];
 		unsigned int *vertex_indices = new unsigned[numFaces * 3];
-		for (int i = 0; i < theModelView.size(); i++) {
+		for (size_t i = 0; i < theModelView.size(); i++) {
 			SimMesh *theMesh = theModelView[i]->theMesh;
-			for (int j = 0; j < theMesh->numFaces(); j++) {
+			for (size_t j = 0; j < theMesh->numFaces(); j++) {
 				int id = start_id + j;
 				int r = (id & 0x000000FF) >> 0;
 				int g = (id & 0x0000FF00) >> 8;
@@ -139,7 +139,7 @@ void OpenGLSelectionBufferData::loadSelectedObjBufferData() {
 		m_obj->orderedSeletedVertex(orderedVertex);
 		selected_vertex *vertex_data = new selected_vertex[orderedVertex.size()];
 		unsigned int *vertex_indices = new unsigned int[orderedVertex.size()];
-		for (int i = 0; i < orderedVertex.size(); i++) {
+		for (size_t i = 0; i < orderedVertex.size(); i++) {
 			vertex_data[i].position = vec4(orderedVertex[i]->p[0], orderedVertex[i]->p[1], orderedVertex[i]->p[2], 1.0);
 			vertex_data[i].color = vec4(0.0f, 1.0f, 1.0f, 1.0f);
 			vertex_indices[i] = i;
@@ -164,7 +164,7 @@ void OpenGLSelectionBufferData::loadSelectedObjBufferData() {
 		m_obj->orderedSeletedEdge(orderedEdges);
 		selected_vertex *vertex_data = new selected_vertex[orderedEdges.size() * 2];
 		unsigned int *vertex_indices = new unsigned int[orderedEdges.size() * 2];
-		for (int i = 0; i < orderedEdges.size(); i++) {
+		for (size_t i = 0; i < orderedEdges.size(); i++) {
 			SimEdge *e = orderedEdges[i];
 			vertex_data[2 * i].position = vec4(e->v0->p[0], e->v0->p[1], e->v0->p[2], 1.0);
 			vertex_data[2 * i + 1].position = vec4(e->v1->p[0], e->v1->p[1], e->v1->p[2], 1.0);
@@ -193,7 +193,7 @@ void OpenGLSelectionBufferData::loadSelectedObjBufferData() {
 		m_obj->orderedSeletedFace(orderedFaces);
 		selected_vertex *vertex_data = new selected_vertex[orderedFaces.size() * 3];
 		unsigned int *vertex_indices = new unsigned int[orderedFaces.size() * 3];
-		for (int i = 0; i < orderedFaces.size(); i++) {
+		for (size_t i = 0; i < orderedFaces.size(); i++) {
 			SimFace *f = orderedFaces[i];
 			for (int j = 0; j < 3; j++) {
 				vertex_data[3 * i + j].position = vec4(f->ver[j]->p[0], f->ver[j]->p[1], f->ver[j]->p[2], 1.0);

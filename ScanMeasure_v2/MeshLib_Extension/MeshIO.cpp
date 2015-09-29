@@ -1,4 +1,5 @@
 #include "MeshIO.h"
+#include "TraitParser.h"
 
 #pragma warning (disable : 4996)
 //#pragma warning (disable : 4018)
@@ -30,7 +31,7 @@ bool MeshIO::ReadM(const char inputFile[], SimMesh & cMesh)
 			vid2idx[id] = v->idx;
 			for( int i = 0 ; i < 3; i ++ ){
 				str = strtok(NULL," \r\n{");
-				v->p[i] = atof( str );
+				v->p[i] = (float)atof( str );
 			}			
 			//vertIndex[v] = v_adjInHEList.size();
 			str = strtok( NULL, "\r\n");
@@ -47,6 +48,100 @@ bool MeshIO::ReadM(const char inputFile[], SimMesh & cMesh)
 		if (!str) continue;	
 		if( !strcmp(str,"Face") ){ //parsing a line of SimFace element
 			
+			str = strtok(NULL, " \r\n");
+			if( !str || strlen( str ) == 0 ) continue;
+			int id = atoi( str );
+			int vid[3];
+			for( int i = 0; i < 3; i ++ )
+			{
+				str = strtok(NULL," \r\n{");
+				vid[i] = vid2idx[atoi(str)];
+			}
+			SimFace * f = cMesh.createFace( vid );  //Important 2
+			if (!str) continue;
+			str = strtok( NULL, "\r\n");
+			if( !str || strlen( str ) == 0 ) continue;
+		}
+	}
+
+	fclose(fp);
+
+	printf("Done!\n");
+	return true;
+}
+
+bool MeshIO::ReadM(const char inputFile[], ModelView & modelView)
+{	
+	std::cout << "Reading Mesh " << inputFile << " ...\n";
+	FILE * fp = fopen( inputFile, "r" );
+	if( !fp ){
+		std::cerr << "Can't open file " << inputFile << "!" <<std::endl;
+		return false;
+	}
+
+	SimMesh & cMesh = *modelView.theMesh;
+	modelView.theColor = new MeshColor(modelView.theMesh);
+	MeshColor & theColor = *modelView.theColor;
+
+	char line[1024];
+	cMesh.clear();
+
+	stdext::hash_map<int, int> vid2idx;
+	bool hasColor = false;
+
+	while(!feof(fp)){	
+		fgets(line, 1024, fp);
+		if(!strlen(line)) continue;
+		char * str = strtok( line, " \r\n");
+		if (!str) continue;
+
+		if( !strcmp(str, "Vertex" ) ){ //parsing a line of SimVertex element
+			str = strtok(NULL," \r\n{");
+			int id = atoi( str );
+			SimVertex * v  = cMesh.createVertex(); // Important 1
+			vid2idx[id] = v->idx;
+			for( int i = 0 ; i < 3; i ++ ){
+				str = strtok(NULL," \r\n{");
+				v->p[i] = (float)atof( str );
+			}			
+			//vertIndex[v] = v_adjInHEList.size();
+			str = strtok( NULL, "\r\n");
+			if(!str || strlen( str ) == 0) continue;
+			std::string s(str);
+			int sp = s.find("{");
+			int ep = s.find("}");
+
+			if( sp >= 0 && ep >= 0 )
+			{
+				std::string colorString = s.substr( sp+1, ep-sp-1 );
+				std::string c("rgb");
+				double rgbVal[3];
+				if (TraitParser::ReadTrait(colorString, c, 3, rgbVal))
+				{
+					theColor.r.push_back(static_cast<unsigned char> (rgbVal[0] * 255));
+					theColor.g.push_back(static_cast<unsigned char> (rgbVal[1] * 255));
+					theColor.b.push_back(static_cast<unsigned char> (rgbVal[2] * 255));
+					theColor.a.push_back(static_cast<unsigned char> (255));
+					hasColor = true;
+				}
+			}
+		}
+	}
+	std::cout << hasColor << std::endl;
+	if (!hasColor)
+	{
+		delete modelView.theColor;
+		modelView.theColor = NULL;
+	}
+	cMesh.init();
+	fp = fopen( inputFile, "r" );
+	while(!feof(fp)){	
+		fgets(line, 1024, fp);
+		if(!strlen(line)) continue;
+		char * str = strtok( line, " \r\n");
+		if (!str) continue;	
+		if( !strcmp(str,"Face") ){ //parsing a line of SimFace element
+
 			str = strtok(NULL, " \r\n");
 			if( !str || strlen( str ) == 0 ) continue;
 			int id = atoi( str );
@@ -91,7 +186,7 @@ bool MeshIO::ReadOBJ(const char inputFile[], SimMesh & cMesh)
 			SimVertex * v  = cMesh.createVertex(); // Important 1
 			for( int i = 0 ; i < 3; i ++ ){
 				str = strtok(NULL," \r\n{");
-				v->p[i] = atof( str );
+				v->p[i] = (float)atof( str );
 			}			
 		}
 	}
@@ -163,23 +258,7 @@ bool MeshIO::ReadOBJ(const char inputFile[], ModelView & modelView)
 				{
 					std::string info;
 					in >> info;
-					if (!info.compare("map_Ka"))
-					{
-						std::string tFilename;
-						in >> tFilename;
-						modelView.theTexture->texture_filename = absolutePath;
-						modelView.theTexture->texture_filename.append(tFilename);
-						break;
-					}
-					else if (!info.compare("map_Ks"))
-					{
-						std::string tFilename;
-						in >> tFilename;
-						modelView.theTexture->texture_filename = absolutePath;
-						modelView.theTexture->texture_filename.append(tFilename);
-						break;
-					}
-					else if (!info.compare("map_Kd"))
+					if (!info.compare("map_Ka") || !info.compare("map_Ks") || !info.compare("map_Kd"))
 					{
 						std::string tFilename;
 						in >> tFilename;
@@ -195,14 +274,14 @@ bool MeshIO::ReadOBJ(const char inputFile[], ModelView & modelView)
 			SimVertex * v  = modelView.theMesh->createVertex(); // Important 1
 			for( int i = 0 ; i < 3; i ++ ){
 				str = strtok(NULL," \r\n{");
-				v->p[i] = atof( str );
+				v->p[i] = (float)atof( str );
 			}		
 		}
 		if( !strcmp(str, "vt" ) ){ //parsing a line of SimVertex element
 			str = strtok(NULL," \r\n{");
-			u.push_back(atof( str ));
+			u.push_back((float)atof( str ));
 			str = strtok(NULL," \r\n{");
-			v.push_back(atof( str ));
+			v.push_back((float)atof( str ));
 		}
 	}
 	if (modelView.theTexture && (u.size() == 0 || modelView.theTexture->texture_filename == ""))
@@ -563,6 +642,126 @@ bool MeshIO::WriteM( const char outputFile[], SimMesh & cMesh )
 	for (int i = 0; i < cMesh.numFaces(); i++)
 	{
 		SimFace * f = cMesh.indFace(i);
+		int v0 = f->ver[0]->idx;
+		int v1 = f->ver[1]->idx;
+		int v2 = f->ver[2]->idx;
+		fprintf(fp, "Face %d %d %d %d\n", f->idx+1, v0+1, v1+1, v2+1);
+	}
+	fclose(fp);
+	std::cout << "Done!" <<std::endl;
+	return true;
+}
+
+bool MeshIO::WritePLY(const char outputFile[], ModelView & modelView)
+{
+	std::ofstream out(outputFile);
+	if (!out.is_open())
+	{
+		std::cerr << "Can't open file " << outputFile << "!" <<std::endl;
+		return false;
+	}
+	out << "ply\nformat ascii 1.0\n";
+	out << "element vertex " << modelView.theMesh->numVertices() << "\n";
+	out << "property float x\n";
+	out << "property float y\n";
+	out << "property float z\n";
+	bool hasNormal = false;
+	bool hasColor = false;
+	if (modelView.theNormals && modelView.theNormals->vNormals.size() > 0)
+	{
+		out << "property float nx\n";
+		out << "property float ny\n";
+		out << "property float nz\n";
+		hasNormal = true;
+	}
+	if (modelView.theColor && modelView.theColor->r.size() > 0)
+	{
+		out << "property uchar red\n";
+		out << "property uchar green\n";
+		out << "property uchar blue\n";
+		hasColor = true;
+	}
+	out << "element face " << modelView.theMesh->numFaces() << "\n";
+	out << "property list uchar int vertex_indices\n";
+	out << "end_header\n";
+	for (int i = 0; i < modelView.theMesh->numVertices(); i++)
+	{
+		Point pt = modelView.theMesh->indVertex(i)->p;
+		out << pt[0] << " " << pt[1] << " " << pt[2];
+		if (hasNormal && i < modelView.theNormals->vNormals.size())
+		{
+			Point n = modelView.theNormals->vNormals[i];
+			out << " " << n[0] << " " << n[1] << " " << n[2];
+		}
+		if (hasColor && i < modelView.theColor->r.size())
+		{
+			int r = static_cast<int> (modelView.theColor->r[i]);
+			int g = static_cast<int> (modelView.theColor->g[i]);
+			int b = static_cast<int> (modelView.theColor->b[i]);
+			out << " " << r << " " << g << " " << b;
+		}
+		out << "\n";
+	}
+	for (int i = 0; i < modelView.theMesh->numFaces(); i++)
+	{
+		SimFace * f = modelView.theMesh->indFace(i);
+		out << "3 " << f->ver[0]->idx << " " << f->ver[1]->idx << " " << f->ver[2]->idx << "\n";
+	}
+	out.close();
+	printf("Done!\n");
+	return true;
+}
+
+bool MeshIO::WriteOBJ(const char outputFile[], SimMesh & cMesh)
+{
+	std::ofstream out(outputFile);
+	if (!out.is_open())
+	{
+		std::cerr << "Can't open file " << outputFile << "!" <<std::endl;
+		return false;
+	}
+	for (int i = 0; i < cMesh.numVertices(); i++)
+	{
+		SimVertex * ver = cMesh.indVertex(i);
+		out << "v " << ver->p[0] << " " << ver->p[1] << " " << ver->p[2] << "\n";
+	}
+	for (int i = 0; i < cMesh.numFaces(); i++)
+	{
+		SimFace * f = cMesh.indFace(i);
+		int v0 = f->ver[0]->idx;
+		int v1 = f->ver[1]->idx;
+		int v2 = f->ver[2]->idx;
+		out << "f " << v0 + 1 << " " << v1 + 1 << " " << v2 + 1 << "\n";
+	}
+	out.close();
+	return true;
+}
+
+
+bool MeshIO::WriteM(const char outputFile[], ModelView & modelView)
+{
+	FILE * fp = fopen( outputFile,"w");
+	if ( !fp ){
+		std::cerr << "Cannot open file " << outputFile << "to write!" <<std::endl;
+		return false;
+	}
+
+	std::cout << "Writing Mesh "<< outputFile <<" ...";
+	for (int i = 0; i <modelView.theMesh->numVertices(); i++){
+		SimVertex * ver = modelView.theMesh->indVertex(i);
+		std::ostringstream oss;
+		oss.precision(10); oss.setf(std::ios::fixed,std::ios::floatfield);  //setting the output precision: now 10
+		oss << "Vertex " << ver->idx + 1 << " " << ver->p[0] << " " << ver->p[1] << " " << ver->p[2];
+		if (modelView.theColor)
+			oss << " {rgb=(" << static_cast<float> (modelView.theColor->r[i])/255 << " "
+				<< static_cast<float> (modelView.theColor->g[i])/255 << " " << static_cast<float> (modelView.theColor->b[i])/255 << ")}";
+		fprintf(fp, "%s\n", oss.str().c_str());
+	}
+
+	std::vector<SimFace *>::iterator fit;
+	for (int i = 0; i < modelView.theMesh->numFaces(); i++)
+	{
+		SimFace * f = modelView.theMesh->indFace(i);
 		int v0 = f->ver[0]->idx;
 		int v1 = f->ver[1]->idx;
 		int v2 = f->ver[2]->idx;

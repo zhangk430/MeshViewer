@@ -1,7 +1,7 @@
 #ifndef SIMEDGE_H
 #define SIMEDGE_H
 
-#include <SimVertex.h>
+#include "SimVertex.h"
 
 class SimEdge
 {

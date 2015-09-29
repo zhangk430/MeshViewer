@@ -24,18 +24,18 @@ void OpenglBufferData::loadBufferData() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	if (!theTexture) {
 		data = new vertex[theMesh->numVertices()];
-		for (int i = 0; i < theMesh->numVertices(); i++) {
+		for (size_t i = 0; i < theMesh->numVertices(); i++) {
 			data[i].position = vec4(theMesh->indVertex(i)->p[0], theMesh->indVertex(i)->p[1], theMesh->indVertex(i)->p[2], 1.0);
 			if (theModelView->theColor) {
 				GLfloat a = 1.0f;
-				if (i < theColor->a.size()) a = (GLfloat)theColor->a[i] / 255;
-				data[i].color = vec4((GLfloat)theColor->r[i] / 255, (GLfloat)theColor->g[i] / 255, (GLfloat)theColor->b[i] / 255, a);
+				if (i < theColor->a.size()) a = theColor->a[i] / 255.0f;
+				data[i].color = vec4(theColor->r[i] / 255.0f, theColor->g[i] / 255.0f, theColor->b[i] / 255.0f, a);
 			}
 			else
-				data[i].color = vec4((GLfloat)theModelView->color[0], (GLfloat)theModelView->color[1], (GLfloat)theModelView->color[2], 1.0f);
+				data[i].color = vec4(theModelView->color[0], theModelView->color[1], theModelView->color[2], 1.0f);
 		}
 		if (theNormals) {
-			for (int i = 0; i < theNormals->vNormals.size(); i++) {
+			for (size_t i = 0; i < theNormals->vNormals.size(); i++) {
 				data[i].normal = vec3(theNormals->vNormals[i][0], theNormals->vNormals[i][1], theNormals->vNormals[i][2]);
 			}
 		}
@@ -44,7 +44,7 @@ void OpenglBufferData::loadBufferData() {
 	else {
 		// if texture exists, we need to duplicate the vertex on each triangle
 		data = new vertex[theMesh->numFaces() * 3];
-		for (int i = 0; i < theMesh->numFaces(); i++) {
+		for (size_t i = 0; i < theMesh->numFaces(); i++) {
 			SimFace *f = theMesh->indFace(i);
 			for (int j = 0; j < 3; j++) {
 				SimVertex *v = f->ver[j];
@@ -78,7 +78,7 @@ void OpenglBufferData::loadBufferData() {
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), BUFFER_OFFSET(2 * sizeof(vec4)));
 	}
 	unsigned int *face_indices = new unsigned int[3 * theMesh->numFaces()];
-	for (int i = 0; i < theMesh->numFaces(); i++) {
+	for (size_t i = 0; i < theMesh->numFaces(); i++) {
 		SimFace *f = theMesh->indFace(i);
 		for (int j = 0; j < 3; j++) {
 			if (!theTexture) 
@@ -97,7 +97,7 @@ void OpenglBufferData::loadBufferData() {
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), BUFFER_OFFSET(0));
 	unsigned int *edge_indices = new unsigned int[2 * theMesh->numEdges()];
 	if (theTexture) {
-		for (int i = 0; i < theMesh->numFaces(); i++) {
+		for (size_t i = 0; i < theMesh->numFaces(); i++) {
 			SimFace *f = theMesh->indFace(i);
 			for (int j = 0; j < 3; j++) {
 				SimEdge * e = theMesh->idEdge(f->ver[j]->idx, f->ver[(j + 1) % 3]->idx);
@@ -107,7 +107,7 @@ void OpenglBufferData::loadBufferData() {
 		}
 	}
 	else {
-		for (int i = 0; i < theMesh->numEdges(); i++) {
+		for (size_t i = 0; i < theMesh->numEdges(); i++) {
 			SimEdge * e = theMesh->indEdge(i);
 			edge_indices[2 * i + 0] = e->v0->idx;
 			edge_indices[2 * i + 1] = e->v1->idx;

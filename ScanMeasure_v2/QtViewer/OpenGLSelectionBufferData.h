@@ -1,7 +1,7 @@
 #ifndef OPENGL_SELECTION_BUFFER_DATA
 #define OPENGL_SELECTION_BUFFER_DATA
 
-#include "ModelView.h"
+#include "../MeshLib_Extension/ModelView.h"
 #include "../GL_Extension/Angel.h"
 #include "SelectedObject.h"
 

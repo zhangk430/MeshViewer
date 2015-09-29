@@ -28,6 +28,7 @@ private:
 
 		void load();
 		void import();
+		void save();
 		void showWireFrame(bool show);
 		void showMeshChanged(int row);
 		void showMeshChanged();

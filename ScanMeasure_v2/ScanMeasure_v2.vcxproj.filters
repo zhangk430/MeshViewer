@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="MeshLib_Core">
-      <UniqueIdentifier>{2c55ed63-0e4a-4d10-a00a-a17cc2e23115}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MeshLib_Extension">
       <UniqueIdentifier>{6aa8eab3-9024-4066-bba9-423d0ab5e825}</UniqueIdentifier>
     </Filter>
@@ -21,27 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MeshLib_Core\Edge.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshLib_Core\Face.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshLib_Core\Halfedge.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshLib_Core\Iterators.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshLib_Core\Mesh.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshLib_Core\Point.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshLib_Core\Vertex.h">
-      <Filter>MeshLib_Core</Filter>
-    </ClInclude>
     <ClInclude Include="MeshLib_Extension\MeshColor.h">
       <Filter>MeshLib_Extension</Filter>
     </ClInclude>
@@ -96,9 +72,6 @@
     <ClInclude Include="GL_Extension\vec.h">
       <Filter>GL_Extension</Filter>
     </ClInclude>
-    <ClInclude Include="QtViewer\ModelView.h">
-      <Filter>QtViewer</Filter>
-    </ClInclude>
     <ClInclude Include="GL_Extension\CheckError.h">
       <Filter>GL_Extension</Filter>
     </ClInclude>
@@ -117,17 +90,23 @@
     <ClInclude Include="QtViewer\RenderText.h">
       <Filter>QtViewer</Filter>
     </ClInclude>
-    <ClInclude Include="GL_Extension\RenderToTexture.h">
-      <Filter>GL_Extension</Filter>
+    <ClInclude Include="SimMeshLib\Point.h">
+      <Filter>SimMeshLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\ModelView.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\Parser.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\Trait.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\TraitParser.h">
+      <Filter>MeshLib_Extension</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MeshLib_Core\Mesh.cpp">
-      <Filter>MeshLib_Core</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshLib_Core\Vertex.cpp">
-      <Filter>MeshLib_Core</Filter>
-    </ClCompile>
     <ClCompile Include="MeshLib_Extension\MeshIO.cpp">
       <Filter>MeshLib_Extension</Filter>
     </ClCompile>
@@ -150,9 +129,6 @@
       <Filter>QtViewer\MainWindow</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="QtViewer\ModelView.cpp">
-      <Filter>QtViewer</Filter>
-    </ClCompile>
     <ClCompile Include="GL_Extension\InitShader.cpp">
       <Filter>GL_Extension</Filter>
     </ClCompile>
@@ -171,8 +147,14 @@
     <ClCompile Include="QtViewer\RenderText.cpp">
       <Filter>QtViewer</Filter>
     </ClCompile>
-    <ClCompile Include="GL_Extension\RenderToTexture.cpp">
-      <Filter>GL_Extension</Filter>
+    <ClCompile Include="MeshLib_Extension\ModelView.cpp">
+      <Filter>MeshLib_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLib_Extension\Parser.cpp">
+      <Filter>MeshLib_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLib_Extension\TraitParser.cpp">
+      <Filter>MeshLib_Extension</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

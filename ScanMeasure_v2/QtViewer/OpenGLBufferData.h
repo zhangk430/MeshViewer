@@ -1,7 +1,7 @@
 #ifndef OPENGL_BUFFER_DATA_H
 #define OPENGL_BUFFER_DATA_H
 
-#include "ModelView.h"
+#include "../MeshLib_Extension/ModelView.h"
 #include "../GL_Extension/Angel.h"
 
 class OpenglBufferData

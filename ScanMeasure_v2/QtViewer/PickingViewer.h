@@ -1,7 +1,7 @@
 #ifndef PICKING_VIEWER_H
 #define PICKING_VIEWER_H
 
-#include <QtViewer.h>
+#include "QtViewer.h"
 #include "OpenGLSelectionBufferData.h"
 #include "RenderText.h"
 

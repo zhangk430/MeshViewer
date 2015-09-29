@@ -17,7 +17,7 @@ void ModelView::ComputCentroidAndBox() {
 	center[0] = center[1] = center[2] = 0;
 	boxMin[0] = boxMin[1] = boxMin[2] = 1e5;
 	boxMax[0] = boxMax[1] = boxMax[2] = -1e5;
-	for (int i = 0; i < theMesh->numVertices(); i++)
+	for (size_t i = 0; i < theMesh->numVertices(); i++)
 	{
 		SimVertex * v = theMesh->indVertex(i);
 		Point & pt = v->p;
@@ -47,7 +47,7 @@ void ModelView::computeTangentSpace() {
 	if (theTexture->mode == MeshTexture::VERTEX_MODE) {
 		tangents.resize(theMesh->numVertices());
 	}
-	for (int i = 0; i < theMesh->numFaces(); i++) {
+	for (size_t i = 0; i < theMesh->numFaces(); i++) {
 		SimFace *f = theMesh->indFace(i);
 		for (int j = 0; j < 3; j++) {
 			SimVertex *v0 = f->ver[j];

@@ -9,7 +9,7 @@ void SelectedObject::updateSelectionOrder()
 		{
 			std::vector<SimVertex *> orderedVertex;
 			orderedSeletedVertex(orderedVertex);
-			for (int i = 0; i < orderedVertex.size(); i++)
+			for (size_t i = 0; i < orderedVertex.size(); i++)
 				selectedVertex[orderedVertex[i]] = i+1;
 			break;
 		}
@@ -18,7 +18,7 @@ void SelectedObject::updateSelectionOrder()
 		{
 			std::vector<SimEdge *> orderedEdge;
 			orderedSeletedEdge(orderedEdge);
-			for (int i = 0; i < orderedEdge.size(); i++)
+			for (size_t i = 0; i < orderedEdge.size(); i++)
 				selectedEdge[orderedEdge[i]] = i+1;
 			break;
 		}
@@ -27,7 +27,7 @@ void SelectedObject::updateSelectionOrder()
 		{
 			std::vector<SimFace *> orderedFace;
 			orderedSeletedFace(orderedFace);
-			for (int i = 0; i < orderedFace.size(); i++)
+			for (size_t i = 0; i < orderedFace.size(); i++)
 				selectedFace[orderedFace[i]] = i+1;
 			break;
 		}
@@ -51,7 +51,7 @@ void SelectedObject::orderedSeletedVertex(std::vector<SimVertex *>& orderedVerte
 		std::pair<SimVertex *, int> vp = *vit;
 		t_orderedVertex[vp.second - 1] = vp.first;
 	}
-	for (int i = 0; i < t_orderedVertex.size(); i++)
+	for (size_t i = 0; i < t_orderedVertex.size(); i++)
 	{
 		if (t_orderedVertex[i])
 			orderedVertex.push_back(t_orderedVertex[i]);
@@ -74,7 +74,7 @@ void SelectedObject::orderedSeletedEdge(std::vector<SimEdge *>& orderedEdge)
 		std::pair<SimEdge *, int> vp = *vit;
 		t_orderedEdge[vp.second - 1] = vp.first;
 	}
-	for (int i = 0; i < t_orderedEdge.size(); i++)
+	for (size_t i = 0; i < t_orderedEdge.size(); i++)
 	{
 		if (t_orderedEdge[i])
 			orderedEdge.push_back(t_orderedEdge[i]);
@@ -97,7 +97,7 @@ void SelectedObject::orderedSeletedFace(std::vector<SimFace *>& orderedFace)
 		std::pair<SimFace *, int> vp = *vit;
 		t_orderedFace[vp.second - 1] = vp.first;
 	}
-	for (int i = 0; i < t_orderedFace.size(); i++)
+	for (size_t i = 0; i < t_orderedFace.size(); i++)
 	{
 		if (t_orderedFace[i])
 			orderedFace.push_back(t_orderedFace[i]);

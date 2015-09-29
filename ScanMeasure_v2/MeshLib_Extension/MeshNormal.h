@@ -1,7 +1,7 @@
 #ifndef MESHNORMAL_H
 #define MESHNORMAL_H
 
-#include <SimMesh.h>
+#include "../SimMeshLib/SimMesh.h"
 #include <vector>
 #include <assert.h>
 #include <iostream>
@@ -23,9 +23,9 @@ public:
 		{
 			faceTrgAngles.resize(theMesh->numFaces());
 			//To compute corner angles
-			for (int i = 0; i < theMesh->numFaces(); i++){
+			for (size_t i = 0; i < theMesh->numFaces(); i++){
 				SimFace * f = theMesh->indFace(i);
-				double len[3], len2[3];
+				float len[3], len2[3];
 				for (int i=0;i<3;++i)
 				{
 					len2[i] = (f->ver[(i+1)%3]->p - f->ver[i]->p).norm2();
@@ -49,7 +49,7 @@ public:
 			fNormals.resize(theMesh->numFaces());
 			//To compute face normal
 			int f_ind = 0;
-			for (int i = 0; i < theMesh->numFaces(); i++){
+			for (size_t i = 0; i < theMesh->numFaces(); i++){
 				SimFace * f = theMesh->indFace(i);
 				SimVertex * v1 = f->ver[0];
 				SimVertex * v2 = f->ver[1];
@@ -62,14 +62,14 @@ public:
 		if (vNormals.size() != theMesh->numVertices())
 		{
 			vNormals.resize(theMesh->numVertices());
-			for (int i = 0; i < theMesh->numVertices(); i++)
+			for (size_t i = 0; i < theMesh->numVertices(); i++)
 			{
 				Point sumVNorm(0,0,0);
-				double sumWeight = 0;
+				float sumWeight = 0;
 				SimVertex * v = theMesh->indVertex(i);
 				int FaceCount = 0;		
 				std::vector<SimFace *> orf = theMesh->getOneRingFace(v);
-				for (int i = 0; i < orf.size(); i++)
+				for (size_t i = 0; i < orf.size(); i++)
 				{			
 					SimFace * f = orf[i];
 					for (int j = 0; j < 3; j++)

@@ -1,11 +1,10 @@
 #ifndef SIMMESH_H
 #define SIMMESH_H
 
-#include <SimVertex.h>
-#include <SimFace.h>
-#include <SimEdge.h>
+#include "SimVertex.h"
+#include "SimFace.h"
+#include "SimEdge.h"
 #include <hash_map>
-#include <list>
 
 class SimMesh
 {
@@ -19,9 +18,9 @@ public:
 	~SimMesh();
 
 	//(2) I/O
-	int numVertices()	{return m_verts.size();}							//number of vertices
-	int numEdges()      {return m_edges.size();}
-	int numFaces()		{return m_faces.size();}							//number of faces
+	size_t numVertices()	{return m_verts.size();}							//number of vertices
+	size_t numEdges()      {return m_edges.size();}
+	size_t numFaces()		{return m_faces.size();}							//number of faces
 	void clear();
 
 

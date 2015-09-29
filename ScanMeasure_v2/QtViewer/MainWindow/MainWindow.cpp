@@ -1,7 +1,9 @@
 #include "MainWindow.h"
-#include <MeshIO.h>
+#include "../../MeshLib_Extension/MeshIO.h"
 #include <QtGui/QFileDialog>
+#include <QtGui/QInputDialog>
 #include <QtGui/QLabel>
+#include <QtGui/QMessageBox>
 
 #pragma warning (disable : 4996)
 
@@ -24,6 +26,7 @@ void MyWindow::connectSlot()
 {
 	QObject::connect( ui.actionOpen,  SIGNAL(triggered()), this, SLOT(load()) );
 	QObject::connect( ui.actionImport,  SIGNAL(triggered()), this, SLOT(import()) );
+	QObject::connect( ui.actionSave,  SIGNAL(triggered()), this, SLOT(save()) );
 	QObject::connect( signalMapper,  SIGNAL(mapped(int)), this, SLOT(showMeshChanged(int)) );
 	QObject::connect( ui.checkbox,  SIGNAL(clicked()), this, SLOT(showMeshChanged()) );
 	QObject::connect( ui.actionWireframe,  SIGNAL(toggled(bool)), this, SLOT(showWireFrame(bool)) );
@@ -39,7 +42,7 @@ void MyWindow::load()
 	SimMesh * mesh = new SimMesh;
 	ModelView * modelView = new ModelView;
 	modelView->theMesh = mesh;
-	if (suffix == "m" && !MeshIO::ReadM(filename.toLocal8Bit().data(), *mesh))
+	if (suffix == "m" && !MeshIO::ReadM(filename.toLocal8Bit().data(), *modelView))
 	{
 		std::cout<<"Fail to read the File!"<<std::endl;
 		return ;
@@ -88,7 +91,7 @@ void MyWindow::import()
 		SimMesh * mesh = new SimMesh;
 		ModelView * modelView = new ModelView;
 		modelView->theMesh = mesh;
-		if (suffix == "m" && !MeshIO::ReadM(filename.toLocal8Bit().data(), *mesh))
+		if (suffix == "m" && !MeshIO::ReadM(filename.toLocal8Bit().data(), *modelView))
 		{
 			std::cout<<"Fail to read the File!"<<std::endl;
 			return ;
@@ -122,6 +125,44 @@ void MyWindow::import()
 			m_viewer->addModelView(modelView);
 	}
 	ui.checkbox->setChecked(true);
+}
+
+void MyWindow::save()
+{
+	if (!m_viewer || !m_viewer->getModelViewSize())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("No mesh exist!");
+		msgBox.exec();
+		return;
+	}
+	bool ok = true;
+	int idx = 1;
+	if (m_viewer->getModelViewSize() >= 2)
+		QInputDialog::getInt(this, tr("Enter mesh ID"), tr("ID:"), 0, 1, m_viewer->getModelViewSize(), 1, &ok);
+	if (ok)
+	{
+		ModelView *theModelView = m_viewer->getModelView(idx - 1);
+		QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
+			getenv("HOME"),
+			tr("Model Files (*.m *.obj *.ply)"));
+		QString suffix = filename.section('.', -1);
+		if (suffix == "m" && !MeshIO::WriteM(filename.toLocal8Bit().data(), *theModelView))
+		{
+			std::cout<<"Fail to read the File!"<<std::endl;
+			return ;
+		}
+		if (suffix == "obj" && !MeshIO::WriteOBJ(filename.toLocal8Bit().data(), *theModelView->theMesh))
+		{
+			std::cout<<"Fail to read the File!"<<std::endl;
+			return ;
+		}
+		if (suffix == "ply" && !MeshIO::ReadPLY(filename.toLocal8Bit().data(), *theModelView))
+		{
+			std::cout<<"Fail to read the File!"<<std::endl;
+			return ;
+		}
+	}
 }
 
 void MyWindow::showWireFrame(bool show)

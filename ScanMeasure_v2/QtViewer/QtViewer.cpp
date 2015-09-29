@@ -19,19 +19,6 @@ void QtViewer::SetCameraFromModelView()
 mat4 QtViewer::getModelViewMatrix()
 {
 
-	//old OpenGL method
-	/*glTranslatef(theCamera.center[0]-theCamera.translation[0], 
-		theCamera.center[1]-theCamera.translation[1], 
-		theCamera.center[2]-theCamera.translation[2]);	
-	GLfloat mat[16];
-	QMatrix4x4 m;
-	m.rotate(m_Trackball.rotation());
-	const qreal *data = m.constData();
-	for (int index = 0; index < 16; ++index)
-		mat[index] = data[index];
-	glMultMatrixf(mat);
-	glTranslatef(-theCamera.center[0], -theCamera.center[1], -theCamera.center[2]);*/
-
 	vec4 eye(theCamera.position[0], theCamera.position[1], theCamera.position[2], 1.0f);
 	vec4 at(theCamera.center[0], theCamera.center[1], theCamera.center[2], 1.0f);
 	vec4 up(0.0f, 1.0f, 0.0f, 1.0f);
@@ -71,11 +58,6 @@ mat4 QtViewer::getDepthMatrix() {
 	mat4 depthProjectionMatrix = Ortho(theCamera.center[0] - 6 * theCamera.boxAxisLen, theCamera.center[0] + 6 * theCamera.boxAxisLen,
 		theCamera.center[1] - 6 * theCamera.boxAxisLen, theCamera.center[1] + 6 * theCamera.boxAxisLen,
 		theCamera.center[2] - 6 * theCamera.boxAxisLen, theCamera.center[2] + 6 * theCamera.boxAxisLen);
-	//mat4 biasMatrix(0.5, 0.0, 0.0, 0.0,
-	//	0.0, 0.5, 0.0, 0.0,
-	//	0.0, 0.0, 0.5, 0.0, 
-	//	0.5, 0.5, 0.5, 1.0);
-	//depthProjectionMatrix = biasMatrix * depthProjectionMatrix;
 	return depthProjectionMatrix * trans;
 }
 
@@ -97,7 +79,7 @@ void QtViewer::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 	glUseProgram(shadowShaderProgram.shaderProgram);
 	glUniformMatrix4fv(shadowShaderProgram.depthMatrixUniform, 1, GL_TRUE, getDepthMatrix());
-	for (int i = 0; i < theModelView.size(); i++)
+	for (size_t i = 0; i < theModelView.size(); i++)
 		Render_Mesh(i);
 	drawFloor();
 
@@ -166,7 +148,7 @@ void QtViewer::paintGL()
 	vec4 cameraPosition(theCamera.position[0], theCamera.position[1], theCamera.position[2], 1.0f);
 	Shader * shaderProgram = NULL;
 	glPolygonOffset(1.0, 1.0);
-	for (int i = 0; i < theModelView.size(); i++) {
+	for (size_t i = 0; i < theModelView.size(); i++) {
 		if (theModelView[i]->theTexture)
 			shaderProgram = &textureShadedrProgram;
 		else 
@@ -324,7 +306,7 @@ void QtViewer::ShowWireFrame(bool ifshow)
 
 void QtViewer::setShowMesh(int idx, bool ifshow) 
 {
-	if (idx < showMesh.size()) {
+	if (idx < (int)showMesh.size()) {
 		showMesh[idx] = ifshow;
 		updateGL();
 	}
@@ -332,7 +314,7 @@ void QtViewer::setShowMesh(int idx, bool ifshow)
 
 void QtViewer::clear()
 {
-	for (int i = 0; i < theModelView.size(); i++) {
+	for (size_t i = 0; i < theModelView.size() && i < m_bufferData.size(); i++) {
 		delete theModelView[i];
 		delete m_bufferData[i];
 	}

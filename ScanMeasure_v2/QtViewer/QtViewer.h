@@ -1,20 +1,16 @@
 #ifndef QTVIEWER_H
 #define QTVIEWER_H
 
+#include "Camera.h"
+#include "OpenGLBufferData.h"
+#include "Lighting.h"
+#include "trackball.h"
 #include "../GL_Extension/Shader.h"
-
 #include <QtOpenGL/qgl.h>  // for QGLWidget
 #include <QtGui/QMouseEvent>
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
-#include <QtGui/QMessageBox>
-
-#include "Camera.h"
-#include "OpenGLBufferData.h"
-#include "Lighting.h"
-#include "trackball.h"
-#include "../GL_Extension/RenderToTexture.h"
 
 
 class QtViewer: public QGLWidget{

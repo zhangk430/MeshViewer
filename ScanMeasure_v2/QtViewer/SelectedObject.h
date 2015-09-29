@@ -1,7 +1,7 @@
 #ifndef SELECTED_OBJECT_H
 #define SELECTED_OBJECT_H
 
-#include <SimMesh.h>
+#include "../SimMeshLib/SimMesh.h"
 
 class SelectedObject
 {

@@ -3,7 +3,6 @@
 
 #include "../GL_Extension/Angel.h"
 #include <QtGui/QFontMetrics>
-#include <vector>
 #include <QtCore/QHash>
 
 typedef struct {

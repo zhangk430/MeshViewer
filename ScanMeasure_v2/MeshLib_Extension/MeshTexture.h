@@ -1,7 +1,7 @@
 #ifndef MESHTEXTURE_H
 #define MESHTEXTURE_H
 
-#include <SimMesh.h>
+#include "../SimMeshLib/SimMesh.h"
 #include <string>
 
 class MeshTexture

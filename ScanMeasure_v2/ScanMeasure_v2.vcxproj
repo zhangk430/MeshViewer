@@ -110,7 +110,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>D:\code\MeshViewer\ScanMeasure_v2\QtViewer;D:\code\MeshViewer\ScanMeasure_v2\SimMeshLib;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Extension;D:\code\MeshViewer\ScanMeasure_v2\MeshLib_Core;C:\Qt\4.8.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Qt\4.8.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <OpenMPSupport>true</OpenMPSupport>
@@ -151,25 +151,21 @@
     <ClInclude Include="GL_Extension\Angel.h" />
     <ClInclude Include="GL_Extension\CheckError.h" />
     <ClInclude Include="GL_Extension\mat.h" />
-    <ClInclude Include="GL_Extension\RenderToTexture.h" />
     <ClInclude Include="GL_Extension\Shader.h" />
     <ClInclude Include="GL_Extension\vec.h" />
-    <ClInclude Include="MeshLib_Core\Edge.h" />
-    <ClInclude Include="MeshLib_Core\Face.h" />
-    <ClInclude Include="MeshLib_Core\Halfedge.h" />
-    <ClInclude Include="MeshLib_Core\Iterators.h" />
-    <ClInclude Include="MeshLib_Core\Mesh.h" />
-    <ClInclude Include="MeshLib_Core\Point.h" />
-    <ClInclude Include="MeshLib_Core\Vertex.h" />
     <ClInclude Include="MeshLib_Extension\MeshColor.h" />
     <ClInclude Include="MeshLib_Extension\MeshIO.h" />
     <ClInclude Include="MeshLib_Extension\MeshNormal.h" />
     <ClInclude Include="MeshLib_Extension\MeshTexture.h" />
-    <ClInclude Include="QtViewer\ModelView.h" />
+    <ClInclude Include="MeshLib_Extension\ModelView.h" />
+    <ClInclude Include="MeshLib_Extension\Parser.h" />
+    <ClInclude Include="MeshLib_Extension\Trait.h" />
+    <ClInclude Include="MeshLib_Extension\TraitParser.h" />
     <ClInclude Include="QtViewer\OpenGLBufferData.h" />
     <ClInclude Include="QtViewer\OpenGLSelectionBufferData.h" />
     <ClInclude Include="QtViewer\PickingViewer.h" />
     <ClInclude Include="QtViewer\RenderText.h" />
+    <ClInclude Include="SimMeshLib\Point.h" />
     <ClInclude Include="SimMeshLib\SimEdge.h" />
     <ClInclude Include="SimMeshLib\SimFace.h" />
     <ClInclude Include="SimMeshLib\SimMesh.h" />
@@ -184,12 +180,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GL_Extension\InitShader.cpp" />
-    <ClCompile Include="GL_Extension\RenderToTexture.cpp" />
-    <ClCompile Include="MeshLib_Core\Mesh.cpp" />
-    <ClCompile Include="MeshLib_Core\Vertex.cpp" />
     <ClCompile Include="MeshLib_Extension\MeshIO.cpp" />
+    <ClCompile Include="MeshLib_Extension\ModelView.cpp" />
+    <ClCompile Include="MeshLib_Extension\Parser.cpp" />
+    <ClCompile Include="MeshLib_Extension\TraitParser.cpp" />
     <ClCompile Include="QtViewer\moc_PickingViewer.cpp" />
-    <ClCompile Include="QtViewer\ModelView.cpp" />
     <ClCompile Include="QtViewer\OpenGLBufferData.cpp" />
     <ClCompile Include="QtViewer\OpenGLSelectionBufferData.cpp" />
     <ClCompile Include="QtViewer\PickingViewer.cpp" />

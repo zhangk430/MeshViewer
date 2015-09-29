@@ -1,7 +1,7 @@
 #ifndef SIMVERTEX_H
 #define SIMVERTEX_H
 
-#include <Point.h>
+#include "Point.h"
 
 class SimVertex
 {

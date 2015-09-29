@@ -2,7 +2,7 @@
 #define MESHCOLOR_H
 
 
-#include <SimMesh.h>
+#include "../SimMeshLib/SimMesh.h"
 
 
 class MeshColor

@@ -1,10 +1,9 @@
 #ifndef MODELVIEW_H
 #define MODELVIEW_H
 
-#include <SimMesh.h>
-#include <MeshNormal.h>
-#include <MeshColor.h>
-#include <MeshTexture.h>
+#include "MeshNormal.h"
+#include "MeshColor.h"
+#include "MeshTexture.h"
 
 class ModelView{
 public:
