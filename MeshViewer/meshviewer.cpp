@@ -10,6 +10,11 @@ MeshViewer::MeshViewer(QWidget *parent)
 {
 	ui.setupUi(this);
 	connectSlot();
+	ui.tableWidget->setColumnCount(4);
+	ui.tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("s"));
+	ui.tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("name"));
+	ui.tableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("vn"));
+	ui.tableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("fn"));
 	ui.tableWidget->setColumnWidth(0, 20);
 	ui.tableWidget->setColumnWidth(1, 100);
 	ui.tableWidget->setColumnWidth(2, 60);
@@ -29,6 +34,7 @@ void MeshViewer::connectSlot()
 	QObject::connect( &signalMapper,  SIGNAL(mapped(int)), this, SLOT(showMeshChanged(int)) );
 	QObject::connect( ui.checkBox,  SIGNAL(clicked()), this, SLOT(showMeshChanged()) );
 	QObject::connect( ui.actionWireFrame,  SIGNAL(toggled(bool)), this, SLOT(showWireFrame(bool)) );
+	QObject::connect(ui.widget, SIGNAL(picked()), this, SLOT(setChosenElement()));
 }
 
 void MeshViewer::load() 
@@ -181,4 +187,82 @@ void MeshViewer::showMeshChanged()
 		checkBox->setChecked(ui.checkBox->isChecked());
 		ui.widget->setShowMesh(i, checkBox->isChecked());
 	}
+}
+
+void MeshViewer::setChosenElement()
+{
+	const SelectedObject& selectedObject = ui.widget->getSelectedObjecct();
+	ui.tableWidget_2->setRowCount(0);
+	if (selectedObject.mode == SelectedObject::Vertex_Mode)
+	{
+		ui.tabWidget->setTabText(ui.tabWidget->indexOf(ui.tab_2), "Chosen Vertices");
+		ui.tableWidget_2->setColumnCount(4);
+		ui.tableWidget_2->setHorizontalHeaderItem(0, new QTableWidgetItem("vid"));
+		ui.tableWidget_2->setHorizontalHeaderItem(1, new QTableWidgetItem("coord_x"));
+		ui.tableWidget_2->setHorizontalHeaderItem(2, new QTableWidgetItem("coord_y"));
+		ui.tableWidget_2->setHorizontalHeaderItem(3, new QTableWidgetItem("coord_z"));
+		ui.tableWidget_2->setColumnWidth(0, 60);
+		ui.tableWidget_2->setColumnWidth(1, 80);
+		ui.tableWidget_2->setColumnWidth(2, 80);
+		ui.tableWidget_2->setColumnWidth(3, 80);
+		std::vector<SimVertex *> vertices;
+		selectedObject.orderedSeletedVertex(vertices);
+		for (size_t i = 0; i < vertices.size(); i++)
+		{
+			ui.tableWidget_2->insertRow(i);
+			ui.tableWidget_2->setCellWidget(i, 0, new QLabel(" " + QString::number(vertices[i]->idx)));
+			ui.tableWidget_2->setCellWidget(i, 1, new QLabel(" " + QString::number(vertices[i]->p[0])));
+			ui.tableWidget_2->setCellWidget(i, 2, new QLabel(" " + QString::number(vertices[i]->p[1])));
+			ui.tableWidget_2->setCellWidget(i, 3, new QLabel(" " + QString::number(vertices[i]->p[2])));
+		}
+	}
+	else if (selectedObject.mode == SelectedObject::Edge_Mode)
+	{
+		ui.tabWidget->setTabText(ui.tabWidget->indexOf(ui.tab_2), "Chosen Edges");
+		ui.tableWidget_2->setColumnCount(3);
+		ui.tableWidget_2->setHorizontalHeaderItem(0, new QTableWidgetItem("eid"));
+		ui.tableWidget_2->setHorizontalHeaderItem(1, new QTableWidgetItem("v0 id"));
+		ui.tableWidget_2->setHorizontalHeaderItem(2, new QTableWidgetItem("v1 id"));
+		ui.tableWidget_2->setColumnWidth(0, 80);
+		ui.tableWidget_2->setColumnWidth(1, 80);
+		ui.tableWidget_2->setColumnWidth(2, 80);
+		std::vector<SimEdge *> edges;
+		selectedObject.orderedSeletedEdge(edges);
+		for (size_t i = 0; i < edges.size(); i++)
+		{
+			ui.tableWidget_2->insertRow(i);
+			ui.tableWidget_2->setCellWidget(i, 0, new QLabel(" " + QString::number(edges[i]->idx)));
+			ui.tableWidget_2->setCellWidget(i, 1, new QLabel(" " + QString::number(edges[i]->v0->idx)));
+			ui.tableWidget_2->setCellWidget(i, 2, new QLabel(" " + QString::number(edges[i]->v1->idx)));
+		}
+	}
+	else if (selectedObject.mode == SelectedObject::Face_Mode)
+	{
+		ui.tabWidget->setTabText(ui.tabWidget->indexOf(ui.tab_2), "Chosen Faces");
+		ui.tableWidget_2->setColumnCount(4);
+		ui.tableWidget_2->setHorizontalHeaderItem(0, new QTableWidgetItem("fid"));
+		ui.tableWidget_2->setHorizontalHeaderItem(1, new QTableWidgetItem("v0 id"));
+		ui.tableWidget_2->setHorizontalHeaderItem(2, new QTableWidgetItem("v1 id"));
+		ui.tableWidget_2->setHorizontalHeaderItem(3, new QTableWidgetItem("v2 id"));
+		ui.tableWidget_2->setColumnWidth(0, 60);
+		ui.tableWidget_2->setColumnWidth(1, 60);
+		ui.tableWidget_2->setColumnWidth(2, 60);
+		ui.tableWidget_2->setColumnWidth(3, 60);
+		std::vector<SimFace *> faces;
+		selectedObject.orderedSeletedFace(faces);
+		for (size_t i = 0; i < faces.size(); i++)
+		{
+			ui.tableWidget_2->insertRow(i);
+			ui.tableWidget_2->setCellWidget(i, 0, new QLabel(" " + QString::number(faces[i]->idx)));
+			ui.tableWidget_2->setCellWidget(i, 1, new QLabel(" " + QString::number(faces[i]->ver[0]->idx)));
+			ui.tableWidget_2->setCellWidget(i, 2, new QLabel(" " + QString::number(faces[i]->ver[1]->idx)));
+			ui.tableWidget_2->setCellWidget(i, 3, new QLabel(" " + QString::number(faces[i]->ver[2]->idx)));
+		}
+	}
+	else
+	{
+		ui.tabWidget->setTabText(ui.tabWidget->indexOf(ui.tab_2), "Chosen Elements");
+		ui.tableWidget_2->setColumnCount(0);
+	}
+
 }

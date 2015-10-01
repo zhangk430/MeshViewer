@@ -125,6 +125,12 @@ void PickingViewer::mousePressEvent(QMouseEvent *event)
 	}
 }
 
+void PickingViewer::mouseReleaseEvent(QMouseEvent *event)
+{
+	QtViewer::mouseReleaseEvent(event);
+	emit picked();
+}
+
 void PickingViewer::select()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
@@ -286,6 +292,7 @@ void PickingViewer::turnOnSelectionFace() {
 		m_selectObject.selectedEdge.clear();
 		selectedBufferData->clearSelectedBufferData();
 		selectedBufferData->loadObjBufferData();
+		emit picked();
 		update(); 
 	}
 }
@@ -300,6 +307,7 @@ void PickingViewer::turnOnSelectionEdge()
 		m_selectObject.selectedFace.clear();
 		selectedBufferData->clearSelectedBufferData();
 		selectedBufferData->loadObjBufferData();
+		emit picked();
 		update(); 
 	}
 }
@@ -315,6 +323,7 @@ void PickingViewer::turnOnSelectionVertex()
 		m_selectObject.selectedFace.clear();
 		selectedBufferData->clearSelectedBufferData();
 		selectedBufferData->loadObjBufferData();
+		emit picked();
 		update(); 
 	}
 }
@@ -326,6 +335,7 @@ void PickingViewer::turnOffSelection(){
 		m_selectObject.mode = SelectedObject::NONE;  
 		clearSelection();
 		selectedBufferData->loadSelectedObjBufferData();
+		emit picked();
 		update();
 	}
 }

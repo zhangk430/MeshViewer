@@ -21,6 +21,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -39,7 +40,11 @@ public:
     QHBoxLayout *horizontalLayout;
     PickingViewer *widget;
     QVBoxLayout *verticalLayout;
+    QTabWidget *tabWidget;
+    QWidget *tab;
     QTableWidget *tableWidget;
+    QWidget *tab_2;
+    QTableWidget *tableWidget_2;
     QCheckBox *checkBox;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -51,7 +56,7 @@ public:
     {
         if (MeshViewerClass->objectName().isEmpty())
             MeshViewerClass->setObjectName(QStringLiteral("MeshViewerClass"));
-        MeshViewerClass->resize(1162, 825);
+        MeshViewerClass->resize(1159, 825);
         actionOpen = new QAction(MeshViewerClass);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionImport = new QAction(MeshViewerClass);
@@ -83,22 +88,28 @@ public:
         horizontalLayout->addWidget(widget);
 
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(20);
+        verticalLayout->setSpacing(10);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout->setContentsMargins(-1, -1, 0, -1);
-        tableWidget = new QTableWidget(centralWidget);
-        if (tableWidget->columnCount() < 4)
-            tableWidget->setColumnCount(4);
-        tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setEnabled(true);
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
+        tabWidget->setSizePolicy(sizePolicy2);
+        tabWidget->setMinimumSize(QSize(250, 240));
+        tab = new QWidget();
+        tab->setObjectName(QStringLiteral("tab"));
+        tableWidget = new QTableWidget(tab);
+        tableWidget->setObjectName(QStringLiteral("tableWidget"));
+        tableWidget->setEnabled(true);
+        tableWidget->setGeometry(QRect(0, 10, 240, 192));
         sizePolicy2.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
         tableWidget->setSizePolicy(sizePolicy2);
         tableWidget->setMaximumSize(QSize(240, 16777215));
-        tableWidget->setColumnCount(4);
+        tableWidget->setColumnCount(0);
         tableWidget->horizontalHeader()->setVisible(true);
         tableWidget->horizontalHeader()->setCascadingSectionResizes(true);
         tableWidget->horizontalHeader()->setDefaultSectionSize(50);
@@ -109,8 +120,20 @@ public:
         tableWidget->verticalHeader()->setDefaultSectionSize(37);
         tableWidget->verticalHeader()->setHighlightSections(false);
         tableWidget->verticalHeader()->setMinimumSectionSize(30);
+        tabWidget->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        tableWidget_2 = new QTableWidget(tab_2);
+        tableWidget_2->setObjectName(QStringLiteral("tableWidget_2"));
+        tableWidget_2->setGeometry(QRect(0, 10, 240, 192));
+        sizePolicy2.setHeightForWidth(tableWidget_2->sizePolicy().hasHeightForWidth());
+        tableWidget_2->setSizePolicy(sizePolicy2);
+        tableWidget_2->setMaximumSize(QSize(240, 16777215));
+        tableWidget_2->setColumnCount(0);
+        tableWidget_2->horizontalHeader()->setDefaultSectionSize(60);
+        tabWidget->addTab(tab_2, QString());
 
-        verticalLayout->addWidget(tableWidget);
+        verticalLayout->addWidget(tabWidget);
 
         checkBox = new QCheckBox(centralWidget);
         checkBox->setObjectName(QStringLiteral("checkBox"));
@@ -126,7 +149,7 @@ public:
         MeshViewerClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MeshViewerClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1162, 26));
+        menuBar->setGeometry(QRect(0, 0, 1159, 26));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuShading = new QMenu(menuBar);
@@ -148,6 +171,9 @@ public:
 
         retranslateUi(MeshViewerClass);
 
+        tabWidget->setCurrentIndex(0);
+
+
         QMetaObject::connectSlotsByName(MeshViewerClass);
     } // setupUi
 
@@ -158,6 +184,8 @@ public:
         actionImport->setText(QApplication::translate("MeshViewerClass", "Import", 0));
         actionSave->setText(QApplication::translate("MeshViewerClass", "Save", 0));
         actionWireFrame->setText(QApplication::translate("MeshViewerClass", "WireFrame", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MeshViewerClass", "Loaded Models", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MeshViewerClass", "Chosen Elements", 0));
         checkBox->setText(QApplication::translate("MeshViewerClass", "CheckBox", 0));
         menuFile->setTitle(QApplication::translate("MeshViewerClass", "File", 0));
         menuShading->setTitle(QApplication::translate("MeshViewerClass", "Shading", 0));

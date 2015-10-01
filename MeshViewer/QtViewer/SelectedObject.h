@@ -18,15 +18,15 @@ public:
 	stdext::hash_map<SimVertex *, int> selectedVertex;
 	stdext::hash_map<SimEdge *, int> selectedEdge;
 	stdext::hash_map<SimFace *, int> selectedFace;
-	typedef stdext::hash_map<SimVertex *, int>::iterator vertexIterator;
-	typedef stdext::hash_map<SimEdge *, int>::iterator edgeIterator;
-	typedef stdext::hash_map<SimFace *, int>::iterator faceIterator;
+	typedef stdext::hash_map<SimVertex *, int>::const_iterator vertexIterator;
+	typedef stdext::hash_map<SimEdge *, int>::const_iterator edgeIterator;
+	typedef stdext::hash_map<SimFace *, int>::const_iterator faceIterator;
 
 
 	void updateSelectionOrder();
-	void orderedSeletedVertex(std::vector<SimVertex *>& orderedVertex);
-	void orderedSeletedEdge(std::vector<SimEdge *>& orderedEdge);
-	void orderedSeletedFace(std::vector<SimFace *>& orderedFace);
+	void orderedSeletedVertex(std::vector<SimVertex *>& orderedVertex) const;
+	void orderedSeletedEdge(std::vector<SimEdge *>& orderedEdge) const;
+	void orderedSeletedFace(std::vector<SimFace *>& orderedFace) const;
 
 	void clear();
 

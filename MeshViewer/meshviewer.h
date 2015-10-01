@@ -26,6 +26,7 @@ private:
 		void showWireFrame(bool show);
 		void showMeshChanged(int row);
 		void showMeshChanged();
+		void setChosenElement();
 };
 
 #endif // MESHVIEWER_H

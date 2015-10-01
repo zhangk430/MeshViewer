@@ -21,6 +21,7 @@ public:
 	void initializeGL();
 	void paintGL();
 	void mousePressEvent(QMouseEvent *);
+	void mouseReleaseEvent(QMouseEvent *);
 
 	void select();
 	void drawSelectObject();
@@ -29,6 +30,8 @@ public:
 
 	void clearSelection();
 	void clear();
+
+	const SelectedObject & getSelectedObjecct(){  return m_selectObject;   }
 	
 
 protected:
@@ -45,6 +48,9 @@ protected:
 		void turnOnSelectionEdge();
 		void turnOnSelectionVertex();
 		void turnOffSelection();
+
+signals:
+		void picked();
 
 
 };

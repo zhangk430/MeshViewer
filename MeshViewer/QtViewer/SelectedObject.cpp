@@ -35,18 +35,18 @@ void SelectedObject::updateSelectionOrder()
 	}
 }
 
-void SelectedObject::orderedSeletedVertex(std::vector<SimVertex *>& orderedVertex)
+void SelectedObject::orderedSeletedVertex(std::vector<SimVertex *>& orderedVertex) const
 {
 	orderedVertex.clear();
 	std::vector<SimVertex *> t_orderedVertex;
 	int max = 0;
-	for (vertexIterator vit = selectedVertex.begin(); vit != selectedVertex.end(); ++vit)
+	for (vertexIterator vit = selectedVertex.cbegin(); vit != selectedVertex.cend(); ++vit)
 	{
 		std::pair<SimVertex *, int> vp = *vit;
 		max = max > vp.second ? max : vp.second;
 	}
 	t_orderedVertex.resize(max, NULL);
-	for (vertexIterator vit = selectedVertex.begin(); vit != selectedVertex.end(); ++vit)
+	for (vertexIterator vit = selectedVertex.cbegin(); vit != selectedVertex.cend(); ++vit)
 	{
 		std::pair<SimVertex *, int> vp = *vit;
 		t_orderedVertex[vp.second - 1] = vp.first;
@@ -58,18 +58,18 @@ void SelectedObject::orderedSeletedVertex(std::vector<SimVertex *>& orderedVerte
 	}
 }
 
-void SelectedObject::orderedSeletedEdge(std::vector<SimEdge *>& orderedEdge)
+void SelectedObject::orderedSeletedEdge(std::vector<SimEdge *>& orderedEdge) const
 {
 	orderedEdge.clear();
 	std::vector<SimEdge*> t_orderedEdge;
 	int max = 0;
-	for (edgeIterator vit = selectedEdge.begin(); vit != selectedEdge.end(); ++vit)
+	for (edgeIterator vit = selectedEdge.cbegin(); vit != selectedEdge.cend(); ++vit)
 	{
 		std::pair<SimEdge *, int> vp = *vit;
 		max = max > vp.second ? max : vp.second;
 	}
 	t_orderedEdge.resize(max, NULL);
-	for (edgeIterator vit = selectedEdge.begin(); vit != selectedEdge.end(); ++vit)
+	for (edgeIterator vit = selectedEdge.cbegin(); vit != selectedEdge.cend(); ++vit)
 	{
 		std::pair<SimEdge *, int> vp = *vit;
 		t_orderedEdge[vp.second - 1] = vp.first;
@@ -81,18 +81,18 @@ void SelectedObject::orderedSeletedEdge(std::vector<SimEdge *>& orderedEdge)
 	}
 }
 
-void SelectedObject::orderedSeletedFace(std::vector<SimFace *>& orderedFace)
+void SelectedObject::orderedSeletedFace(std::vector<SimFace *>& orderedFace) const
 {
 	orderedFace.clear();
 	std::vector<SimFace *> t_orderedFace;
 	int max = 0;
-	for (faceIterator vit = selectedFace.begin(); vit != selectedFace.end(); ++vit)
+	for (faceIterator vit = selectedFace.cbegin(); vit != selectedFace.cend(); ++vit)
 	{
 		std::pair<SimFace *, int> vp = *vit;
 		max = max > vp.second ? max : vp.second;
 	}
 	t_orderedFace.resize(max, NULL);
-	for (faceIterator vit = selectedFace.begin(); vit != selectedFace.end(); ++vit)
+	for (faceIterator vit = selectedFace.cbegin(); vit != selectedFace.cend(); ++vit)
 	{
 		std::pair<SimFace *, int> vp = *vit;
 		t_orderedFace[vp.second - 1] = vp.first;
