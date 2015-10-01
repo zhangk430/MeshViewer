@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{72bac31c-21c4-476d-9576-1a0d993d5dc8}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{816cd4a8-24e3-4dbd-b846-b4a9c6a49072}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="QtViewer">
+      <UniqueIdentifier>{bd2da7ce-7597-4beb-8a17-9479745b2372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimMeshLib">
+      <UniqueIdentifier>{a226c5bd-aa45-4a55-8b94-8bb54e43c975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MeshLib_Extension">
+      <UniqueIdentifier>{75fadaef-c28b-4a57-b676-a7885d77cdb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GL_Extension">
+      <UniqueIdentifier>{a25a26b4-d3e2-474f-9821-ce524845c6da}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meshviewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_meshviewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_meshviewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_meshviewer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\QtViewer.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\SelectedObject.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\trackball.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="SimMeshLib\SimMesh.cpp">
+      <Filter>SimMeshLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLib_Extension\MeshIO.cpp">
+      <Filter>MeshLib_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLib_Extension\ModelView.cpp">
+      <Filter>MeshLib_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLib_Extension\Parser.cpp">
+      <Filter>MeshLib_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLib_Extension\TraitParser.cpp">
+      <Filter>MeshLib_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_Extension\InitShader.cpp">
+      <Filter>GL_Extension</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\OpenGLBufferData.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\PickingViewer.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PickingViewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PickingViewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\OpenGLSelectionBufferData.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\RenderText.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="meshviewer.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="meshviewer.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="meshviewer.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QtViewer\PickingViewer.h">
+      <Filter>QtViewer</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_meshviewer.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\Camera.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\Lighting.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\QtViewer.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\SelectedObject.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\trackball.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="SimMeshLib\Point.h">
+      <Filter>SimMeshLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimMeshLib\SimEdge.h">
+      <Filter>SimMeshLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimMeshLib\SimFace.h">
+      <Filter>SimMeshLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimMeshLib\SimMesh.h">
+      <Filter>SimMeshLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimMeshLib\SimVertex.h">
+      <Filter>SimMeshLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\MeshColor.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\MeshIO.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\MeshNormal.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\MeshTexture.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\ModelView.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\Parser.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\Trait.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLib_Extension\TraitParser.h">
+      <Filter>MeshLib_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Extension\Angel.h">
+      <Filter>GL_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Extension\CheckError.h">
+      <Filter>GL_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Extension\mat.h">
+      <Filter>GL_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Extension\Shader.h">
+      <Filter>GL_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Extension\vec.h">
+      <Filter>GL_Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\OpenGLBufferData.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\OpenGLSelectionBufferData.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\RenderText.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vFontShader.glsl" />
+    <None Include="fFontShader.glsl" />
+    <None Include="fSelectionShader.glsl" />
+    <None Include="vSelectionShader.glsl" />
+    <None Include="fTexShader.glsl" />
+    <None Include="vTexShader.glsl" />
+    <None Include="fShader.glsl" />
+    <None Include="vShader.glsl" />
+    <None Include="fDepthShader.glsl" />
+    <None Include="vDepthShader.glsl" />
+  </ItemGroup>
+</Project>
