@@ -39,8 +39,10 @@ public:
 	virtual void setModelView(ModelView * modelView);
 	virtual void addModelView(ModelView * modelView);
 
+	int locateVertex(SimVertex *v);
+
 	void ShowWireFrame(bool ifshow);
-	void setShowMesh(int idx, bool ifshow);
+	virtual void setShowMesh(int idx, bool ifshow);
 	virtual void clear();
 
 	ModelView * getModelView(unsigned int idx){     return idx >= theModelView.size() ? NULL : theModelView[idx];    }

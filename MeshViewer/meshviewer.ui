@@ -22,7 +22,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="PickingViewer" name="widget" native="true">
+     <widget class="TracingViewer" name="widget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -41,6 +41,9 @@
       </property>
       <property name="rightMargin">
        <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>450</number>
       </property>
       <item>
        <widget class="QTabWidget" name="tabWidget">
@@ -91,7 +94,7 @@
            <number>0</number>
           </property>
           <attribute name="horizontalHeaderVisible">
-           <bool>true</bool>
+           <bool>false</bool>
           </attribute>
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
@@ -106,7 +109,7 @@
            <number>20</number>
           </attribute>
           <attribute name="verticalHeaderVisible">
-           <bool>true</bool>
+           <bool>false</bool>
           </attribute>
           <attribute name="verticalHeaderCascadingSectionResizes">
            <bool>true</bool>
@@ -157,21 +160,41 @@
         </widget>
        </widget>
       </item>
-      <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Show All</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Chosen ID</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -193,6 +216,7 @@
     <addaction name="actionOpen"/>
     <addaction name="actionImport"/>
     <addaction name="actionSave"/>
+    <addaction name="actionExport"/>
    </widget>
    <widget class="QMenu" name="menuShading">
     <property name="title">
@@ -200,9 +224,24 @@
     </property>
     <addaction name="actionWireFrame"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuTrace">
+     <property name="title">
+      <string>Trace</string>
+     </property>
+     <addaction name="actionShortest_Curve"/>
+     <addaction name="actionShortest_Loop"/>
+    </widget>
+    <addaction name="menuTrace"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuShading"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -211,7 +250,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
@@ -235,22 +273,31 @@
     <string>WireFrame</string>
    </property>
   </action>
+  <action name="actionShortest_Curve">
+   <property name="text">
+    <string>Shortest Curve</string>
+   </property>
+  </action>
+  <action name="actionShortest_Loop">
+   <property name="text">
+    <string>Shortest Loop</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>PickingViewer</class>
+   <class>TracingViewer</class>
    <extends>QWidget</extends>
-   <header location="global">QtViewer/PickingViewer.h</header>
+   <header>QtViewer/TracingViewer.h</header>
    <container>1</container>
-   <slots>
-    <signal>picked()</signal>
-   </slots>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>checkBox</tabstop>
- </tabstops>
  <resources>
   <include location="meshviewer.qrc"/>
  </resources>

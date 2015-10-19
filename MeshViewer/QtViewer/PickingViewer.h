@@ -12,7 +12,7 @@ class PickingViewer : public QtViewer
 public:
 
 
-	PickingViewer(QWidget * obj = 0) : QtViewer(obj), selectedBufferData(NULL){
+	PickingViewer(QWidget * obj = 0) : QtViewer(obj), selectedBufferData(NULL), showChosenID(true){
 	}
 
 	void setModelView(ModelView * modelView);
@@ -27,11 +27,13 @@ public:
 	void drawSelectObject();
 	void drawSelectedObject();
 	void drawText(float x, float y, const std::string &s, vec3 color);
+	void ShowChosenID(bool ifshow); 
+	void setShowMesh(int idx, bool ifshow);
 
 	void clearSelection();
 	void clear();
 
-	const SelectedObject & getSelectedObjecct(){  return m_selectObject;   }
+	const SelectedObject & getSelectedObject(){  return m_selectObject;   }
 	
 
 protected:
@@ -42,6 +44,7 @@ protected:
 
 	Shader selectionShaderProgram;
 	GLuint fontShaderProgram;
+	bool showChosenID;
 
 	private slots:
 		void turnOnSelectionFace();

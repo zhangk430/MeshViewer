@@ -20,6 +20,8 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		selected_vertex *vertex_data = new selected_vertex[numVertices];
 		unsigned int *vertex_indices = new unsigned int[numVertices];
 		for (size_t i = 0; i < theModelView.size(); i++) {
+			if (!showMesh[i])
+				continue;
 			SimMesh *theMesh = theModelView[i]->theMesh;
 			for (size_t j = 0; j < theMesh->numVertices(); j++) {
 				int id = start_id + j;
@@ -54,6 +56,8 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		selected_vertex *vertex_data = new selected_vertex[numEdges * 2];
 		unsigned int *vertex_indices = new unsigned int[numEdges * 2];
 		for (size_t i = 0; i < theModelView.size(); i++) {
+			if (!showMesh[i])
+				continue;
 			SimMesh *theMesh = theModelView[i]->theMesh;
 			for (size_t j = 0; j < theMesh->numEdges(); j++) {
 				SimEdge *e = theMesh->indEdge(j);
@@ -94,6 +98,8 @@ void OpenGLSelectionBufferData::loadObjBufferData() {
 		selected_vertex *vertex_data = new selected_vertex[numFaces * 3];
 		unsigned int *vertex_indices = new unsigned[numFaces * 3];
 		for (size_t i = 0; i < theModelView.size(); i++) {
+			if (!showMesh[i])
+				continue;
 			SimMesh *theMesh = theModelView[i]->theMesh;
 			for (size_t j = 0; j < theMesh->numFaces(); j++) {
 				int id = start_id + j;

@@ -31,10 +31,14 @@ void MeshViewer::connectSlot()
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(load()));
 	QObject::connect( ui.actionImport,  SIGNAL(triggered()), this, SLOT(import()) );
 	QObject::connect( ui.actionSave,  SIGNAL(triggered()), this, SLOT(save()) );
+	QObject::connect( ui.actionExport,  SIGNAL(triggered()), this, SLOT(Export()) );
 	QObject::connect( &signalMapper,  SIGNAL(mapped(int)), this, SLOT(showMeshChanged(int)) );
 	QObject::connect( ui.checkBox,  SIGNAL(clicked()), this, SLOT(showMeshChanged()) );
+	QObject::connect( ui.checkBox_2,  SIGNAL(toggled(bool)), this, SLOT(showChosenID(bool)) );
 	QObject::connect( ui.actionWireFrame,  SIGNAL(toggled(bool)), this, SLOT(showWireFrame(bool)) );
 	QObject::connect(ui.widget, SIGNAL(picked()), this, SLOT(setChosenElement()));
+	QObject::connect(ui.actionShortest_Curve, SIGNAL(triggered()), this, SLOT(traceShortestCurve()));
+	QObject::connect(ui.actionShortest_Loop, SIGNAL(triggered()), this, SLOT(traceShortestLoop()));
 }
 
 void MeshViewer::load() 
@@ -80,7 +84,7 @@ void MeshViewer::load()
 }
 void MeshViewer::import()
 {
-	QFileDialog dialog(this, tr("Load File"));
+	QFileDialog dialog(this, tr("Import File"));
 	dialog.setFileMode(QFileDialog::ExistingFiles);
 	dialog.setNameFilter(trUtf8("Model Files (*.m *.ply *.obj)"));
 	QStringList filenames;
@@ -168,6 +172,88 @@ void MeshViewer::save()
 	}
 }
 
+void MeshViewer::Export() 
+{
+	if (!ui.widget || !ui.widget->getModelViewSize())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("No mesh exist!");
+		msgBox.exec();
+		return;
+	}
+	const SelectedObject selectedObject = ui.widget->getSelectedObject();
+	if (!selectedObject.selectedVertex.size() && !selectedObject.selectedEdge.size() && !selectedObject.selectedFace.size())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("No element selected!");
+		msgBox.exec();
+		return;
+	}
+	QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), getenv( "HOME" ), "*.vm; *.cm; *.fm");
+	if(filename.isNull())
+		return;
+	std::ofstream fp;
+	QString str = ".";
+	bool hasSuffix = true;
+	if (filename.indexOf(str) == -1)
+		hasSuffix = false;
+	if (selectedObject.selectedVertex.size())
+	{
+		std::vector<SimVertex *> selectedVertexInOrder;
+		selectedObject.orderedSeletedVertex(selectedVertexInOrder);
+		if (!hasSuffix)
+			filename.append(".vm");
+		fp.open(filename.toLocal8Bit().data());
+		if (!fp.good())
+		{
+			std::cerr << "I/O Error: Cannot write into file " <<  filename.toLocal8Bit().data() << " !" << std::endl;
+			return ;
+		}
+		for (unsigned i = 0; i < selectedVertexInOrder.size(); ++i)
+		{
+			SimVertex * v = selectedVertexInOrder[i];
+			fp << "Vertex "<< v->idx << " " << v->p[0] << " " << v->p[1] << " " << v->p[2] << std::endl;
+		}
+	}
+	else if (selectedObject.selectedEdge.size())
+	{
+		if (!hasSuffix)
+			filename.append(".cm");
+		std::vector<SimEdge *> selectedEdgeInOrder;
+		selectedObject.orderedSeletedEdge(selectedEdgeInOrder);
+		fp.open(filename.toLocal8Bit().data());
+		if (!fp.good())
+		{
+			std::cerr << "I/O Error: Cannot write into file " <<  filename.toLocal8Bit().data() << " !" << std::endl;
+			return ;
+		}
+		for (unsigned i = 0; i < selectedEdgeInOrder.size(); ++i)
+		{
+			SimEdge *e = selectedEdgeInOrder[i];
+			fp << "Edge "<< e->v0->idx + 1 << " " << e->v1->idx + 1 << " {sharp}" << std::endl;
+		}
+	}
+	else if (selectedObject.selectedFace.size())
+	{
+		if (!hasSuffix)
+			filename.append(".fm");
+		std::vector<SimFace *> selectedFaceInOrder;
+		selectedObject.orderedSeletedFace(selectedFaceInOrder);
+		fp.open(filename.toLocal8Bit().data());
+		if (!fp.good())
+		{
+			std::cerr << "I/O Error: Cannot write into file " <<  filename.toLocal8Bit().data() << " !" << std::endl;
+			return ;
+		}
+		for (unsigned i = 0; i < selectedFaceInOrder.size(); ++i)
+		{
+			SimFace *f = selectedFaceInOrder[i];
+			fp << "Face " << f->ver[0]->idx + 1 << " " << f->ver[1]->idx + 1 << " " << f->ver[2]->idx + 1 << std::endl;
+		}
+	}
+	fp.close();
+}
+
 void MeshViewer::showWireFrame(bool show)
 {
 	ui.widget->ShowWireFrame(show);
@@ -189,9 +275,14 @@ void MeshViewer::showMeshChanged()
 	}
 }
 
+void MeshViewer::showChosenID(bool show)
+{
+	ui.widget->ShowChosenID(show);
+}
+
 void MeshViewer::setChosenElement()
 {
-	const SelectedObject& selectedObject = ui.widget->getSelectedObjecct();
+	const SelectedObject& selectedObject = ui.widget->getSelectedObject();
 	ui.tableWidget_2->setRowCount(0);
 	if (selectedObject.mode == SelectedObject::Vertex_Mode)
 	{
@@ -265,4 +356,14 @@ void MeshViewer::setChosenElement()
 		ui.tableWidget_2->setColumnCount(0);
 	}
 
+}
+
+void MeshViewer::traceShortestCurve() 
+{
+	ui.widget->traceShortestPath(false);
+}
+
+void MeshViewer::traceShortestLoop()
+{
+	ui.widget->traceShortestPath(true);
 }

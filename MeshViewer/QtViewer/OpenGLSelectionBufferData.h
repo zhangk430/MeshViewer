@@ -8,13 +8,19 @@
 class OpenGLSelectionBufferData
 {
 public:
-	OpenGLSelectionBufferData(std::vector<ModelView *> modelView, SelectedObject *obj) : vao(0), vao_sobj(0),
+	OpenGLSelectionBufferData(std::vector<ModelView *> modelView, std::vector<bool> ShowMesh, SelectedObject *obj) : vao(0), vao_sobj(0),
 		vbo(0), vbo_indices(0), vbo_sobj(0), vbo_sobj_indices(0),
 		bufferSize(0), sobj_bufferSize(0),
-		theModelView(modelView), m_obj(obj){}
-	~OpenGLSelectionBufferData() {
+		theModelView(modelView), showMesh(ShowMesh), m_obj(obj){}
+	~OpenGLSelectionBufferData() 
+	{
 		clearObjBufferData();
 		clearSelectedBufferData();
+	}
+
+	void setShowMesh(std::vector<bool> ShowMesh)
+	{
+		showMesh = ShowMesh;
 	}
 
 	void loadObjBufferData();
@@ -44,6 +50,7 @@ public:
 protected:
 	
 	std::vector<ModelView *> theModelView;
+	std::vector<bool> showMesh;
 	SelectedObject *m_obj;
 
 

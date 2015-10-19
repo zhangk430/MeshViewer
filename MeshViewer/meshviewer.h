@@ -23,10 +23,14 @@ private:
 		void load();
 		void import();
 		void save();
+		void Export();
 		void showWireFrame(bool show);
 		void showMeshChanged(int row);
 		void showMeshChanged();
+		void showChosenID(bool show);
 		void setChosenElement();
+		void traceShortestCurve();
+		void traceShortestLoop();
 };
 
 #endif // MESHVIEWER_H

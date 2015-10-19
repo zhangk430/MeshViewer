@@ -10,7 +10,6 @@
 #define UI_MESHVIEWER_H
 
 #include <QtCore/QVariant>
-#include <QtViewer/PickingViewer.h>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
@@ -26,6 +25,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "QtViewer/TracingViewer.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -36,21 +36,28 @@ public:
     QAction *actionImport;
     QAction *actionSave;
     QAction *actionWireFrame;
+    QAction *actionShortest_Curve;
+    QAction *actionShortest_Loop;
+    QAction *actionExport;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
-    PickingViewer *widget;
+    TracingViewer *widget;
     QVBoxLayout *verticalLayout;
     QTabWidget *tabWidget;
     QWidget *tab;
     QTableWidget *tableWidget;
     QWidget *tab_2;
     QTableWidget *tableWidget_2;
+    QHBoxLayout *horizontalLayout_2;
     QCheckBox *checkBox;
+    QCheckBox *checkBox_2;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuShading;
-    QToolBar *mainToolBar;
+    QMenu *menuEdit;
+    QMenu *menuTrace;
     QStatusBar *statusBar;
+    QToolBar *mainToolBar;
 
     void setupUi(QMainWindow *MeshViewerClass)
     {
@@ -66,6 +73,12 @@ public:
         actionWireFrame = new QAction(MeshViewerClass);
         actionWireFrame->setObjectName(QStringLiteral("actionWireFrame"));
         actionWireFrame->setCheckable(true);
+        actionShortest_Curve = new QAction(MeshViewerClass);
+        actionShortest_Curve->setObjectName(QStringLiteral("actionShortest_Curve"));
+        actionShortest_Loop = new QAction(MeshViewerClass);
+        actionShortest_Loop->setObjectName(QStringLiteral("actionShortest_Loop"));
+        actionExport = new QAction(MeshViewerClass);
+        actionExport->setObjectName(QStringLiteral("actionExport"));
         centralWidget = new QWidget(MeshViewerClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -77,7 +90,7 @@ public:
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        widget = new PickingViewer(centralWidget);
+        widget = new TracingViewer(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
@@ -91,7 +104,7 @@ public:
         verticalLayout->setSpacing(10);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        verticalLayout->setContentsMargins(-1, -1, 0, -1);
+        verticalLayout->setContentsMargins(-1, -1, 0, 450);
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -110,12 +123,12 @@ public:
         tableWidget->setSizePolicy(sizePolicy2);
         tableWidget->setMaximumSize(QSize(240, 16777215));
         tableWidget->setColumnCount(0);
-        tableWidget->horizontalHeader()->setVisible(true);
+        tableWidget->horizontalHeader()->setVisible(false);
         tableWidget->horizontalHeader()->setCascadingSectionResizes(true);
         tableWidget->horizontalHeader()->setDefaultSectionSize(50);
         tableWidget->horizontalHeader()->setHighlightSections(false);
         tableWidget->horizontalHeader()->setMinimumSectionSize(20);
-        tableWidget->verticalHeader()->setVisible(true);
+        tableWidget->verticalHeader()->setVisible(false);
         tableWidget->verticalHeader()->setCascadingSectionResizes(true);
         tableWidget->verticalHeader()->setDefaultSectionSize(37);
         tableWidget->verticalHeader()->setHighlightSections(false);
@@ -135,13 +148,27 @@ public:
 
         verticalLayout->addWidget(tabWidget);
 
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         checkBox = new QCheckBox(centralWidget);
         checkBox->setObjectName(QStringLiteral("checkBox"));
         sizePolicy2.setHeightForWidth(checkBox->sizePolicy().hasHeightForWidth());
         checkBox->setSizePolicy(sizePolicy2);
         checkBox->setChecked(true);
 
-        verticalLayout->addWidget(checkBox, 0, Qt::AlignHCenter|Qt::AlignTop);
+        horizontalLayout_2->addWidget(checkBox);
+
+        checkBox_2 = new QCheckBox(centralWidget);
+        checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
+        sizePolicy2.setHeightForWidth(checkBox_2->sizePolicy().hasHeightForWidth());
+        checkBox_2->setSizePolicy(sizePolicy2);
+        checkBox_2->setChecked(true);
+
+        horizontalLayout_2->addWidget(checkBox_2);
+
+
+        verticalLayout->addLayout(horizontalLayout_2);
 
 
         horizontalLayout->addLayout(verticalLayout);
@@ -154,20 +181,29 @@ public:
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuShading = new QMenu(menuBar);
         menuShading->setObjectName(QStringLiteral("menuShading"));
+        menuEdit = new QMenu(menuBar);
+        menuEdit->setObjectName(QStringLiteral("menuEdit"));
+        menuTrace = new QMenu(menuEdit);
+        menuTrace->setObjectName(QStringLiteral("menuTrace"));
         MeshViewerClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MeshViewerClass);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MeshViewerClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MeshViewerClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MeshViewerClass->setStatusBar(statusBar);
+        mainToolBar = new QToolBar(MeshViewerClass);
+        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
+        MeshViewerClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
 
         menuBar->addAction(menuFile->menuAction());
+        menuBar->addAction(menuEdit->menuAction());
         menuBar->addAction(menuShading->menuAction());
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionImport);
         menuFile->addAction(actionSave);
+        menuFile->addAction(actionExport);
         menuShading->addAction(actionWireFrame);
+        menuEdit->addAction(menuTrace->menuAction());
+        menuTrace->addAction(actionShortest_Curve);
+        menuTrace->addAction(actionShortest_Loop);
 
         retranslateUi(MeshViewerClass);
 
@@ -184,11 +220,17 @@ public:
         actionImport->setText(QApplication::translate("MeshViewerClass", "Import", 0));
         actionSave->setText(QApplication::translate("MeshViewerClass", "Save", 0));
         actionWireFrame->setText(QApplication::translate("MeshViewerClass", "WireFrame", 0));
+        actionShortest_Curve->setText(QApplication::translate("MeshViewerClass", "Shortest Curve", 0));
+        actionShortest_Loop->setText(QApplication::translate("MeshViewerClass", "Shortest Loop", 0));
+        actionExport->setText(QApplication::translate("MeshViewerClass", "Export", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MeshViewerClass", "Loaded Models", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MeshViewerClass", "Chosen Elements", 0));
-        checkBox->setText(QApplication::translate("MeshViewerClass", "CheckBox", 0));
+        checkBox->setText(QApplication::translate("MeshViewerClass", "Show All", 0));
+        checkBox_2->setText(QApplication::translate("MeshViewerClass", "Chosen ID", 0));
         menuFile->setTitle(QApplication::translate("MeshViewerClass", "File", 0));
         menuShading->setTitle(QApplication::translate("MeshViewerClass", "Shading", 0));
+        menuEdit->setTitle(QApplication::translate("MeshViewerClass", "Edit", 0));
+        menuTrace->setTitle(QApplication::translate("MeshViewerClass", "Trace", 0));
     } // retranslateUi
 
 };

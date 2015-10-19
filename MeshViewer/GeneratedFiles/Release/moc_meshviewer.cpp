@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MeshViewer_t {
-    QByteArrayData data[10];
-    char stringdata0[85];
+    QByteArrayData data[14];
+    char stringdata0[142];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,15 +34,21 @@ QT_MOC_LITERAL(1, 11, 4), // "load"
 QT_MOC_LITERAL(2, 16, 0), // ""
 QT_MOC_LITERAL(3, 17, 6), // "import"
 QT_MOC_LITERAL(4, 24, 4), // "save"
-QT_MOC_LITERAL(5, 29, 13), // "showWireFrame"
-QT_MOC_LITERAL(6, 43, 4), // "show"
-QT_MOC_LITERAL(7, 48, 15), // "showMeshChanged"
-QT_MOC_LITERAL(8, 64, 3), // "row"
-QT_MOC_LITERAL(9, 68, 16) // "setChosenElement"
+QT_MOC_LITERAL(5, 29, 6), // "Export"
+QT_MOC_LITERAL(6, 36, 13), // "showWireFrame"
+QT_MOC_LITERAL(7, 50, 4), // "show"
+QT_MOC_LITERAL(8, 55, 15), // "showMeshChanged"
+QT_MOC_LITERAL(9, 71, 3), // "row"
+QT_MOC_LITERAL(10, 75, 12), // "showChosenID"
+QT_MOC_LITERAL(11, 88, 16), // "setChosenElement"
+QT_MOC_LITERAL(12, 105, 18), // "traceShortestCurve"
+QT_MOC_LITERAL(13, 124, 17) // "traceShortestLoop"
 
     },
-    "MeshViewer\0load\0\0import\0save\0showWireFrame\0"
-    "show\0showMeshChanged\0row\0setChosenElement"
+    "MeshViewer\0load\0\0import\0save\0Export\0"
+    "showWireFrame\0show\0showMeshChanged\0"
+    "row\0showChosenID\0setChosenElement\0"
+    "traceShortestCurve\0traceShortestLoop"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,7 +58,7 @@ static const uint qt_meta_data_MeshViewer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,20 +66,28 @@ static const uint qt_meta_data_MeshViewer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   49,    2, 0x08 /* Private */,
-       3,    0,   50,    2, 0x08 /* Private */,
-       4,    0,   51,    2, 0x08 /* Private */,
-       5,    1,   52,    2, 0x08 /* Private */,
-       7,    1,   55,    2, 0x08 /* Private */,
-       7,    0,   58,    2, 0x08 /* Private */,
-       9,    0,   59,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x08 /* Private */,
+       3,    0,   70,    2, 0x08 /* Private */,
+       4,    0,   71,    2, 0x08 /* Private */,
+       5,    0,   72,    2, 0x08 /* Private */,
+       6,    1,   73,    2, 0x08 /* Private */,
+       8,    1,   76,    2, 0x08 /* Private */,
+       8,    0,   79,    2, 0x08 /* Private */,
+      10,    1,   80,    2, 0x08 /* Private */,
+      11,    0,   83,    2, 0x08 /* Private */,
+      12,    0,   84,    2, 0x08 /* Private */,
+      13,    0,   85,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,    6,
-    QMetaType::Void, QMetaType::Int,    8,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,    7,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,    7,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -89,10 +103,14 @@ void MeshViewer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->load(); break;
         case 1: _t->import(); break;
         case 2: _t->save(); break;
-        case 3: _t->showWireFrame((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 4: _t->showMeshChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 5: _t->showMeshChanged(); break;
-        case 6: _t->setChosenElement(); break;
+        case 3: _t->Export(); break;
+        case 4: _t->showWireFrame((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 5: _t->showMeshChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: _t->showMeshChanged(); break;
+        case 7: _t->showChosenID((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: _t->setChosenElement(); break;
+        case 9: _t->traceShortestCurve(); break;
+        case 10: _t->traceShortestLoop(); break;
         default: ;
         }
     }
@@ -123,13 +141,13 @@ int MeshViewer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 11;
     }
     return _id;
 }

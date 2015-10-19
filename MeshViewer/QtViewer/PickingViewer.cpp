@@ -8,7 +8,7 @@ using namespace std;
 void PickingViewer::setModelView(ModelView * modelView)
 {
 	QtViewer::setModelView(modelView);
-	selectedBufferData = new OpenGLSelectionBufferData(theModelView, &m_selectObject);
+	selectedBufferData = new OpenGLSelectionBufferData(theModelView, showMesh, &m_selectObject);
 	update();
 }
 
@@ -16,7 +16,7 @@ void PickingViewer::addModelView(ModelView * modelView)
 {
 	QtViewer::addModelView(modelView);
 	delete selectedBufferData;
-	selectedBufferData = new OpenGLSelectionBufferData(theModelView, &m_selectObject);
+	selectedBufferData = new OpenGLSelectionBufferData(theModelView, showMesh, &m_selectObject);
 	update();
 }
 
@@ -45,34 +45,37 @@ void PickingViewer::paintGL()
 			Render_Mesh_Edge(i);
 		}
 	}
-	//Draw seleceted Points
+	//Draw selected Points
 	glPointSize(5);
-	glLineWidth(3);
+	glLineWidth(5);
 	drawSelectedObject();
 	glUseProgram(0);
-	typedef stdext::hash_map<SimVertex *, int>::iterator vertexIterator; 
-	for (vertexIterator vit = m_selectObject.selectedVertex.begin(); vit != m_selectObject.selectedVertex.end(); ++vit)
+	if (showChosenID)
 	{
-		std::pair<SimVertex *, int> sv = *vit;
-		std::string s = "v" + std::to_string(sv.second);
-		QPointF pos = viewPosToPixelPos(sv.first->p);
-		drawText((float)pos.x(), (float)pos.y(), s, vec3(79.0f/255, 87.0f/255, 1.0f));
-	}
-	typedef stdext::hash_map<SimEdge *, int>::iterator edgeIterator; 
-	for (edgeIterator eit = m_selectObject.selectedEdge.begin(); eit != m_selectObject.selectedEdge.end(); ++eit)
-	{
-		std::pair<SimEdge *, int> ev = *eit;
-		std::string s = "e" + std::to_string(ev.second);
-		QPointF pos = viewPosToPixelPos((ev.first->v0->p + ev.first->v1->p) / 2);
-		drawText((float)pos.x(), (float)pos.y(), s, vec3(79.0f/255, 87.0f/255, 1.0f));
-	}
-	typedef stdext::hash_map<SimFace *, int>::iterator faceIterator; 
-	for (faceIterator fit = m_selectObject.selectedFace.begin(); fit != m_selectObject.selectedFace.end(); ++fit)
-	{
-		std::pair<SimFace *, int> fv = *fit;
-		std::string s = "f" + std::to_string(fv.second);
-		QPointF pos = viewPosToPixelPos((fv.first->ver[0]->p + fv.first->ver[1]->p + fv.first->ver[2]->p) / 3);
-		drawText((float)pos.x(), (float)pos.y(), s, vec3(79.0f/255, 87.0f/255, 1.0f));
+		typedef stdext::hash_map<SimVertex *, int>::iterator vertexIterator; 
+		for (vertexIterator vit = m_selectObject.selectedVertex.begin(); vit != m_selectObject.selectedVertex.end(); ++vit)
+		{
+			std::pair<SimVertex *, int> sv = *vit;
+			std::string s = "v" + std::to_string(sv.second);
+			QPointF pos = viewPosToPixelPos(sv.first->p);
+			drawText((float)pos.x(), (float)pos.y(), s, vec3(79.0f/255, 87.0f/255, 1.0f));
+		}
+		typedef stdext::hash_map<SimEdge *, int>::iterator edgeIterator; 
+		for (edgeIterator eit = m_selectObject.selectedEdge.begin(); eit != m_selectObject.selectedEdge.end(); ++eit)
+		{
+			std::pair<SimEdge *, int> ev = *eit;
+			std::string s = "e" + std::to_string(ev.second);
+			QPointF pos = viewPosToPixelPos((ev.first->v0->p + ev.first->v1->p) / 2);
+			drawText((float)pos.x(), (float)pos.y(), s, vec3(79.0f/255, 87.0f/255, 1.0f));
+		}
+		typedef stdext::hash_map<SimFace *, int>::iterator faceIterator; 
+		for (faceIterator fit = m_selectObject.selectedFace.begin(); fit != m_selectObject.selectedFace.end(); ++fit)
+		{
+			std::pair<SimFace *, int> fv = *fit;
+			std::string s = "f" + std::to_string(fv.second);
+			QPointF pos = viewPosToPixelPos((fv.first->ver[0]->p + fv.first->ver[1]->p + fv.first->ver[2]->p) / 3);
+			drawText((float)pos.x(), (float)pos.y(), s, vec3(79.0f/255, 87.0f/255, 1.0f));
+		}
 	}
 }
 
@@ -164,10 +167,14 @@ void PickingViewer::select()
 		if (m_selectObject.mode == SelectedObject::Vertex_Mode) {
 			int i = 0;
 			while (i < (int)theModelView.size() && pickedID > (int)theModelView[i]->theMesh->numVertices()) {
+				if (!showMesh[i]) {
+					i++;
+					continue;
+				}
 				pickedID -= theModelView[i]->theMesh->numVertices();
 				i++;
 			}
-			if (i < (int)theModelView.size()) {
+			if (i < (int)theModelView.size() && showMesh[i]) {
 				SimVertex *v = theModelView[i]->theMesh->indVertex(pickedID);
 				if(m_selectObject.selectedVertex.find(v) != m_selectObject.selectedVertex.end())
 				{
@@ -185,10 +192,15 @@ void PickingViewer::select()
 		else if (m_selectObject.mode == SelectedObject::Edge_Mode) {
 			int i = 0;
 			while (i < (int)theModelView.size() && pickedID > (int)theModelView[i]->theMesh->numEdges()) {
+				if (!showMesh[i]) 
+				{
+					i++;
+					continue;
+				}
 				pickedID -= theModelView[i]->theMesh->numEdges();
 				i++;
 			}
-			if (i < (int)theModelView.size()) {
+			if (i < (int)theModelView.size() && showMesh[i]) {
 				SimEdge *e = theModelView[i]->theMesh->indEdge(pickedID);
 				if(m_selectObject.selectedEdge.find(e) != m_selectObject.selectedEdge.end())
 				{
@@ -205,10 +217,15 @@ void PickingViewer::select()
 		else if (m_selectObject.mode == SelectedObject::Face_Mode) {
 			int i = 0;
 			while (i < (int)theModelView.size() && pickedID > (int)theModelView[i]->theMesh->numFaces()) {
+				if (!showMesh[i]) 
+				{
+					i++;
+					continue;
+				}
 				pickedID -= theModelView[i]->theMesh->numFaces();
 				i++;
 			}
-			if (i < (int)theModelView.size()) {
+			if (i < (int)theModelView.size() && showMesh[i]) {
 				SimFace *f = theModelView[i]->theMesh->indFace(pickedID);
 				if(m_selectObject.selectedFace.find(f) != m_selectObject.selectedFace.end())
 				{
@@ -280,6 +297,19 @@ void PickingViewer::drawText(float x, float y, const std::string &s, vec3 color)
 
 	glEnable(GL_DEPTH_TEST);
 	glUseProgram(0);
+}
+
+void PickingViewer::ShowChosenID(bool ifshow)
+{
+	showChosenID = ifshow;  
+	update();  
+}
+
+void PickingViewer::setShowMesh(int idx, bool ifshow)
+{
+	QtViewer::setShowMesh(idx, ifshow);
+	selectedBufferData->setShowMesh(showMesh);
+	selectedBufferData->loadObjBufferData();
 }
 
 void PickingViewer::turnOnSelectionFace() { 

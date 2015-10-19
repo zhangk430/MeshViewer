@@ -315,6 +315,17 @@ void QtViewer::addModelView(ModelView * modelView)
 	update();
 }
 
+int QtViewer::locateVertex(SimVertex *v)
+{
+	for (unsigned i = 0; i < theModelView.size(); i++)
+	{
+		SimMesh *theMesh = theModelView[i]->theMesh;
+		if (theMesh->indVertex(v->idx) == v)
+			return i;
+	}
+	return -1;
+}
+
 void QtViewer::ShowWireFrame(bool ifshow)
 {
 	showWireFrame = ifshow;

@@ -45,6 +45,9 @@
     <Filter Include="GL_Extension">
       <UniqueIdentifier>{a25a26b4-d3e2-474f-9821-ce524845c6da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geodesics">
+      <UniqueIdentifier>{95725607-c1d6-4f68-8b0e-3704ff03243d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -105,6 +108,12 @@
       <Filter>QtViewer</Filter>
     </ClCompile>
     <ClCompile Include="QtViewer\RenderText.cpp">
+      <Filter>QtViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Geodesics\Geodesics.cpp">
+      <Filter>Geodesics</Filter>
+    </ClCompile>
+    <ClCompile Include="QtViewer\TracingViewer.cpp">
       <Filter>QtViewer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -202,6 +211,45 @@
       <Filter>QtViewer</Filter>
     </ClInclude>
     <ClInclude Include="QtViewer\RenderText.h">
+      <Filter>QtViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_base.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_dijkstra.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_dijkstra_alternative.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_exact.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_exact_elements.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_graph_base.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_algorithm_subdivision.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_constants_and_simple_functions.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_memory.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_mesh.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\geodesic_mesh_elements.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="Geodesics\Geodesics.h">
+      <Filter>Geodesics</Filter>
+    </ClInclude>
+    <ClInclude Include="QtViewer\TracingViewer.h">
       <Filter>QtViewer</Filter>
     </ClInclude>
   </ItemGroup>

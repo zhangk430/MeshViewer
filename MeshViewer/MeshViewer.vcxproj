@@ -94,6 +94,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_PickingViewer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Geodesics\Geodesics.cpp" />
     <ClCompile Include="GL_Extension\InitShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshLib_Extension\MeshIO.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="QtViewer\QtViewer.cpp" />
     <ClCompile Include="QtViewer\RenderText.cpp" />
     <ClCompile Include="QtViewer\SelectedObject.cpp" />
+    <ClCompile Include="QtViewer\TracingViewer.cpp" />
     <ClCompile Include="QtViewer\trackball.cpp" />
     <ClCompile Include="SimMeshLib\SimMesh.cpp" />
   </ItemGroup>
@@ -136,6 +138,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_meshviewer.h" />
+    <ClInclude Include="Geodesics\Geodesics.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_base.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_dijkstra.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_dijkstra_alternative.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_exact.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_exact_elements.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_graph_base.h" />
+    <ClInclude Include="Geodesics\geodesic_algorithm_subdivision.h" />
+    <ClInclude Include="Geodesics\geodesic_constants_and_simple_functions.h" />
+    <ClInclude Include="Geodesics\geodesic_memory.h" />
+    <ClInclude Include="Geodesics\geodesic_mesh.h" />
+    <ClInclude Include="Geodesics\geodesic_mesh_elements.h" />
     <ClInclude Include="GL_Extension\Angel.h" />
     <ClInclude Include="GL_Extension\CheckError.h" />
     <ClInclude Include="GL_Extension\mat.h" />
@@ -166,6 +180,7 @@
     </CustomBuild>
     <ClInclude Include="QtViewer\QtViewer.h" />
     <ClInclude Include="QtViewer\SelectedObject.h" />
+    <ClInclude Include="QtViewer\TracingViewer.h" />
     <ClInclude Include="QtViewer\trackball.h" />
     <ClInclude Include="SimMeshLib\Point.h" />
     <ClInclude Include="SimMeshLib\SimEdge.h" />
